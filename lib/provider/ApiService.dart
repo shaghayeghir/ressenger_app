@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,7 +9,6 @@ import 'package:hive/hive.dart';
 import 'package:ressengaer_app/Model/pet.dart';
 import 'package:ressengaer_app/Model/user.dart';
 import 'package:ressengaer_app/Model/vet.dart';
-
 import '../constants.dart';
 import '../main.dart';
 
@@ -950,13 +947,13 @@ class ApiService extends ChangeNotifier {
     });
   }
 
-  signUpUser(String city){
-    if(checkSignUpValidate(city)){
+  signUpUser(){
+    if(password1Controller.text==password2Controller.text){
       String email = emailController.text;
       String password1 = password1Controller.text;
-      String number = numberController.text;
+      String password2=password2Controller.text;
       String fullName = fullNameController.text;
-      UserData userData = UserData('',name: fullName, email: email,password1: password1,number: number ,city: city, day: day, month: month , year: year, password2: '');
+      UserData userData = UserData('',name: fullName, email: email,password1: password1, password2: password2);
       signUpEmail(userData);
     }else{
       apiStatus.inputEmpty();

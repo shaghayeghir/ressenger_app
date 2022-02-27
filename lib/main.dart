@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ressengaer_app/Authentication/login_signup.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
+      home:LoginOrSignup(),
     );
   }
 }
