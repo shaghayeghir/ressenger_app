@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ressengaer_app/screen/notices.dart';
 
 import '../constants.dart';
 
@@ -73,7 +74,7 @@ class SearchApartment extends StatelessWidget {
                       children: [
                         RawMaterialButton(
                           onPressed: (){
-                            kNavigator(context, page)
+                            kNavigator(context, Notices());
                           },
                           child: Row(
                             children: const [
