@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ressengaer_app/screen/searchapartment.dart';
 
 import '../constants.dart';
 
@@ -52,12 +53,17 @@ class SelectCity extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: [
-                        Row(
-                          children: const [
-                            Text('Johannesburg',
-                                style:
-                                    TextStyle(color: kLightPink, fontSize: 18)),
-                          ],
+                        RawMaterialButton(
+                          onPressed: () {
+                            kNavigator(context, SearchApartment());
+                          },
+                          child: Row(
+                            children: const [
+                              Text('Johannesburg',
+                                  style:
+                                      TextStyle(color: kLightPink, fontSize: 18)),
+                            ],
+                          ),
                         ),
                         Divider(color: kLightPink, thickness: 2),
                       ],

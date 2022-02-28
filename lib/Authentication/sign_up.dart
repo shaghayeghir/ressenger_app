@@ -1,18 +1,38 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:ressengaer_app/Authentication/confirm.dart';
-import 'package:ressengaer_app/Authentication/login.dart';
-import 'package:ressengaer_app/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:ressengaer_app/Utils/custom_snackbar.dart';
+import 'package:ressengaer_app/provider/ApiService.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
+import '../constants.dart';
+import 'confirm.dart';
+import 'login.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+class SignUp extends StatelessWidget implements ApiStatusLogin {
+  SignUp({Key? key}) : super(key: key);
+  late BuildContext context;
+
+  showSnackBar(String text) {
+    SnackBar snackBar = SnackBar(
+      content: Text(text),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    this.context = context;
+
+//------------------------------------------------------------------------//
+
+    return Scaffold(
+      body: SafeArea(
+    child: Consumer<ApiService>(
+    builder: (context, value, child) {
+      value.apiListener(this);
+      return Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -32,23 +52,25 @@ class SignUp extends StatelessWidget {
                 MyTextFiled(
                   text: '               full name',
                   icon: Icons.supervisor_account_sharp,
-                  controller: null,
+                  controller: value.fullNameController,
                 ),
                 MyTextFiled(
                   text: '            email address',
                   icon: Icons.email,
-                  controller: null,
+                  controller: value.emailController,
                 ),
                 MyTextFiled(
                   text: '                password',
                   icon: Icons.lock,
-                  controller: null,
+                  controller: value.password1Controller,
+                  passkey: 1,
                 ),
 
                 MyTextFiled(
                   text: '           confirm Password',
                   icon: Icons.lock,
-                  controller: null,
+                  controller: value.password2Controller,
+                  passkey: 1,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -67,8 +89,8 @@ class SignUp extends StatelessWidget {
                 ),
                 roundedButton(
                     kMyPink, context, 0.08, 0.63, 'Sign Up', Colors.white, () {
-                  //value.signUpUser();
-                 // kNavigator(context, Confirm());
+                    value.signUpUser();
+                  // kNavigator(context, Confirm());
                 }),
 
 
@@ -93,7 +115,48 @@ class SignUp extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+    }))
     );
+  }
+
+  @override
+  void accountAvailable() {
+    ModeSnackBar.show(
+        context, 'you signed in before with this email', SnackBarMode.error);
+  }
+
+  @override
+  void error() {
+    ModeSnackBar.show(context, 'something get wrong', SnackBarMode.error);
+  }
+
+  @override
+  void inputEmpty() {
+    ModeSnackBar.show(
+        context, 'fill all filed', SnackBarMode.warning);
+  }
+
+  @override
+  void inputWrong() {
+    ModeSnackBar.show(
+        context,
+        'username or password wrong',
+        SnackBarMode.warning);
+  }
+
+
+  //bool push = false;
+  @override
+  void login() {
+    kNavigatorBack(context);
+    kNavigator(context,  const Confirm());
+
+  }
+
+  @override
+  void passwordWeak() {
+    ModeSnackBar.show(context, 'password is weak',
+        SnackBarMode.warning);
   }
 }

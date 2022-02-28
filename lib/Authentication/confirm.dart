@@ -6,6 +6,8 @@ import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
 
+import '../screen/country.dart';
+
 class Confirm extends StatelessWidget {
   const Confirm({Key? key}) : super(key: key);
 
@@ -47,7 +49,7 @@ class Confirm extends StatelessWidget {
                 ),
                 roundedButton(
                     kMyPink, context, 0.08, 0.63, 'Confirm', Colors.white, () {
-
+                    kNavigator(context, SelectCountry());
                 }),
 
               ],

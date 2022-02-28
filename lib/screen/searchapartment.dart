@@ -71,12 +71,17 @@ class SearchApartment extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: [
-                        Row(
-                          children: const [
-                            Text('Aliway (Randburg)',
-                                style:
-                                    TextStyle(color: kLightPink, fontSize: 18)),
-                          ],
+                        RawMaterialButton(
+                          onPressed: (){
+                            kNavigator(context, page)
+                          },
+                          child: Row(
+                            children: const [
+                              Text('Aliway (Randburg)',
+                                  style:
+                                      TextStyle(color: kLightPink, fontSize: 18)),
+                            ],
+                          ),
                         ),
                         Divider(color: kLightPink, thickness: 2),
                       ],

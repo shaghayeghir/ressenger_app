@@ -34,7 +34,6 @@ dependencies:
   awesome_dialog: ^2.1.2
   google_maps_flutter: ^2.1.1
   font_awesome_flutter: ^9.2.0
-  flutter_sound_lite: ^8.4.2
   cached_network_image: ^3.2.0
   url_launcher: ^6.0.18
   flutter_local_notifications: ^9.2.0

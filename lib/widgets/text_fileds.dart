@@ -6,10 +6,13 @@ class MyTextFiled extends StatefulWidget {
   var text;
   var icon;
 
+  var passkey;
+
    MyTextFiled({
      required this.controller,
      required this.text,
      required this.icon,
+     this.passkey,
    }) ;
 
   @override
@@ -23,6 +26,7 @@ class _MyTextFiledState extends State<MyTextFiled> {
         width: 290,
         padding: EdgeInsets.all(10.0),
         child:  TextField(
+            obscureText: (widget.passkey == 1) ? true : false,
           controller: widget.controller,
             autocorrect: true,
             decoration:  InputDecoration(

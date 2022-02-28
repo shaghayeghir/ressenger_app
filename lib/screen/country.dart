@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import 'city.dart';
 
 class SelectCountry extends StatelessWidget {
   const SelectCountry({Key? key}) : super(key: key);
@@ -39,16 +40,19 @@ class SelectCountry extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: [
-                        Row(
-                          children: const [
-                            Image(
-                              image: AssetImage('assets/images/1.png'),
-                              height: 40,
-                              width: 40,
-                            ),
-                            SizedBox(width: 80,),
-                            Text('South Africa',style: TextStyle(color: kLightPink,fontSize: 18)),
-                          ],
+                        RawMaterialButton(
+                          onPressed: () { kNavigator(context, SelectCity()); },
+                          child: Row(
+                            children: const [
+                              Image(
+                                image: AssetImage('assets/images/1.png'),
+                                height: 40,
+                                width: 40,
+                              ),
+                              SizedBox(width: 80,),
+                              Text('South Africa',style: TextStyle(color: kLightPink,fontSize: 18)),
+                            ],
+                          ),
                         ),
                         Divider(color: kLightPink,thickness: 2),
                       ],

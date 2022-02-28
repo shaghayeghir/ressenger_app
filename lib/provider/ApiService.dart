@@ -993,9 +993,10 @@ class ApiService extends ChangeNotifier {
 
   signIn() async {
     setLoading(true);
-    String email = emailNameController.text;
+    String email = emailController.text;
     String password1 = password1Controller.text;
-    if (checkLoginValidate()) {
+    print(email);
+    print(password1);
       await auth.signInWithEmailAndPassword(
           email: email,
           password: password1
@@ -1007,6 +1008,7 @@ class ApiService extends ChangeNotifier {
           //
           // }
           apiStatus.login();
+          print('login');
           setLoading(false);
         } else {
           apiStatus.error();
@@ -1020,9 +1022,7 @@ class ApiService extends ChangeNotifier {
         }
         setLoading(false);
       });
-    } else {
-      setLoading(false);
-    }
+
   }
 
   bool checkSignUpValidate(String city){
