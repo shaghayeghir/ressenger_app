@@ -30,6 +30,9 @@ mYBottomNavigationBar(context) {
         if (i == 0) {
           kNavigator(context, Notices());
         }
+        else  if (i == 1) {
+
+        }
       },
     ),
   );

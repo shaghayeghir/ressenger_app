@@ -58,7 +58,8 @@ class SearchApartment extends StatelessWidget {
                     ),
                     contentPadding: EdgeInsets.only(bottom: 10,right: 25),
                     hintText: 'search',
-                    hintStyle: TextStyle(color: Colors.white),
+
+                    hintStyle: TextStyle(color: Colors.white,fontFamily: 'Mont'),
                     border: InputBorder.none,
                   ),
                 ),
