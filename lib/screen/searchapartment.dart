@@ -32,6 +32,7 @@ class SearchApartment extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.w900,
                         color: kLightPink,
+                        fontFamily: 'Mont',
                         fontSize: 25),
                   ),
                 ],
@@ -81,7 +82,7 @@ class SearchApartment extends StatelessWidget {
                             children: const [
                               Text('Aliway (Randburg)',
                                   style:
-                                      TextStyle(color: kLightPink, fontSize: 18)),
+                                      TextStyle(color: kLightPink, fontSize: 18,fontFamily: 'Mont')),
                             ],
                           ),
                         ),
