@@ -151,7 +151,7 @@ class SignUp extends StatelessWidget implements ApiStatusLogin {
   @override
   void login() {
     kNavigatorBack(context);
-    kNavigator(context,  const Confirm());
+    kNavigator(context,  Confirm());
 
   }
 

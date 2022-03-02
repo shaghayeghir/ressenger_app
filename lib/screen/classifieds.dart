@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ressengaer_app/constants.dart';
+import 'package:ressengaer_app/screen/seling_items.dart';
 import 'package:ressengaer_app/widgets/my_bottom_navigation_bar.dart';
 
 class ClassiFieds extends StatelessWidget {
@@ -15,7 +16,7 @@ class ClassiFieds extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(right: 10, left: 10, top: 10),
+              margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
               child: Row(
                 children: [
                   const Icon(
@@ -32,13 +33,13 @@ class ClassiFieds extends StatelessWidget {
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     decoration: BoxDecoration(
                       color: kDarkBlue,
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: const Center(
                         child: Text(
                       'Post',
@@ -48,11 +49,11 @@ class ClassiFieds extends StatelessWidget {
                           fontSize: 15),
                     )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Image(
-                    image: AssetImage('assets/images/wicon.png'),
+                  const Image(
+                    image: const AssetImage('assets/images/wicon.png'),
                     width: 50,
                     height: 50,
                     color: kLightPink,
@@ -60,34 +61,34 @@ class ClassiFieds extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(color: Colors.grey, thickness: 2),
-            SizedBox(
+            const Divider(color: Colors.grey, thickness: 2),
+            const SizedBox(
               height: 10,
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Image(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: const Image(
                 image: AssetImage('assets/images/banner.png'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: <Widget>[
-                  Menu('Electronics', FontAwesomeIcons.tv,true),
-                  Menu('Home & Garden', FontAwesomeIcons.couch,true),
-                  Menu('Automotive Vehicles', Icons.monitor,true),
-                  Menu('Baby & Kids', Icons.monitor,true),
-                  Menu('Fashion', Icons.monitor,true),
-                  Menu('Pets', Icons.monitor,true),
-                  Menu('Sports & Leisure', Icons.monitor,true),
-                  Menu('Services', Icons.monitor,true),
-                  Menu('Lost & Found', Icons.monitor,true),
-                  Menu('Charity', Icons.monitor,true),
-                  Menu('Community', Icons.monitor,false),
+                  Menu('Electronics', FontAwesomeIcons.tv,true,context),
+                  Menu('Home & Garden', FontAwesomeIcons.couch,true,context),
+                  Menu('Automotive Vehicles', Icons.monitor,true,context),
+                  Menu('Baby & Kids', Icons.monitor,true,context),
+                  Menu('Fashion', Icons.monitor,true,context),
+                  Menu('Pets', Icons.monitor,true,context),
+                  Menu('Sports & Leisure', Icons.monitor,true,context),
+                  Menu('Services', Icons.monitor,true,context),
+                  Menu('Lost & Found', Icons.monitor,true,context),
+                  Menu('Charity', Icons.monitor,true,context),
+                  Menu('Community', Icons.monitor,false,context),
                 ],
               ),
             )
@@ -98,11 +99,13 @@ class ClassiFieds extends StatelessWidget {
   }
 }
 
-Widget Menu(String text, IconData icon, bool last) {
+Widget Menu(String text, IconData icon, bool last,context) {
   return Column(
     children: [
       RawMaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          kNavigator(context, SellingItem());
+        },
         child: Row(
           children: [
             IconButton(
@@ -112,11 +115,11 @@ Widget Menu(String text, IconData icon, bool last) {
                   color: kLightPink,
                 )),
             // Icon(FaIcon(FontAwesomeIcons.tv),color: kLightPink,),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Text(text,
-                style: TextStyle(
+                style: const TextStyle(
                     color: kLightPink,
                     fontSize: 18,
                     fontWeight: FontWeight.bold)),
@@ -125,7 +128,7 @@ Widget Menu(String text, IconData icon, bool last) {
       ),
       Visibility(
         visible: last,
-          child: Divider(
+          child: const Divider(
         color: kLightPink,
         thickness: 2,
         height: 0,
