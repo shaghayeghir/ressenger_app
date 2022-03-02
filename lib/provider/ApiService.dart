@@ -265,6 +265,10 @@ class ApiService extends ChangeNotifier {
     return fs.collection('country').snapshots();
 
   }
+  Stream<QuerySnapshot> getCity(){
+    return fs.collection('city').snapshots();
+
+  }
   Stream<QuerySnapshot> getAllEvents(){
     return fs.collection('tips').snapshots();
 
@@ -748,12 +752,12 @@ class ApiService extends ChangeNotifier {
     // return fs.collection('location').doc('Veterinary_establishments').collection('markers').snapshots();
     return fs.collection('location').get();
   }
-  Future<QuerySnapshot> getCity(String city,String location){
-    if(city != 'todo'){
-      return fs.collection('location').where('category', isEqualTo: location).where('city',isEqualTo: city).get();
-    }
-    return fs.collection('location').get();
-  }
+  // Future<QuerySnapshot> getCity(String city,String location){
+  //   if(city != 'todo'){
+  //     return fs.collection('location').where('category', isEqualTo: location).where('city',isEqualTo: city).get();
+  //   }
+  //   return fs.collection('location').get();
+  // }
   Stream<QuerySnapshot> getcitytips(String city){
     if(city != 'todo'){
       return fs.collection('tips').where('city',isEqualTo: city).snapshots();
