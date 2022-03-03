@@ -21,10 +21,12 @@ class PostClassified extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                const Icon(
-                  Icons.wifi_protected_setup,
-                  color: kMyPink,
-                  size: 40,
+                IconButton(
+                  icon: Icon(Icons.wifi_protected_setup,
+                    color: kMyPink,
+                    size: 40,), onPressed: () {
+                    kNavigatorBack(context);
+                },
                 ),
                 const Text(
                   'Post Classifieds',

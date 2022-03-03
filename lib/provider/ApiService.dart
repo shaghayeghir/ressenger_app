@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,6 +59,7 @@ class ApiService extends ChangeNotifier {
   String othersName='';
 
   bool loadingAuth = false;
+  bool isEmailVerified =false;
 
   late ApiStatusLogin apiStatus;
   late UploadStatus uploadStatus;
@@ -997,6 +999,8 @@ class ApiService extends ChangeNotifier {
       setLoading(false);
     }
   }
+
+
 
 
   signIn() async {

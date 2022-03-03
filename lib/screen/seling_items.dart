@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/chat_dialog.dart';
+import 'package:ressengaer_app/screen/detailclassifieds.dart';
 import 'package:ressengaer_app/screen/post_classified.dart';
 import 'package:ressengaer_app/screen/searchapartment.dart';
 import 'package:ressengaer_app/widgets/my_bottom_navigation_bar.dart';
@@ -57,7 +58,7 @@ class SellingItem extends StatelessWidget {
                     width: 50,
                     height: 25,
                     decoration: BoxDecoration(
-                        color: Colors.blue.shade700,
+                        color: kDarkBlue,
                         borderRadius: BorderRadius.circular(5)),
                     child: const Center(child: Text('Post',style: TextStyle(
                       color: Colors.white,
@@ -118,75 +119,80 @@ class SellingItem extends StatelessWidget {
             child: ListView(
               // padding: const EdgeInsets.symmetric(horizontal: 10),
               children: <Widget>[
-                Container(
-                  color: kMyPink,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                InkWell(
+                  onTap: () {
+                    kNavigator(context, DetailClassifieds());
+                  },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    height: MediaQuery.of(context).size.height * 0.14,
+                    color: kMyPink,
                     margin:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                    child: Row(
-                      children: [
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.25,
-                            height: MediaQuery.of(context).size.height * 0.14,
-                            child: Image.asset(
-                              'assets/images/wicon3.png',
-                              fit: BoxFit.fill,
-                            )),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 3),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: const [
-                                  Text('Title ',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Mont')),
-                                  Spacer()
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.6,
-                                    height:
-                                    MediaQuery.of(context).size.height *
-                                        0.08,
-                                    child: const Text(
-                                        'When a user clicks on a category they are taken to a screen that shows the list of ',
-                                        textAlign: TextAlign.start,
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.14,
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                      child: Row(
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              height: MediaQuery.of(context).size.height * 0.14,
+                              child: Image.asset(
+                                'assets/images/wicon3.png',
+                                fit: BoxFit.fill,
+                              )),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 3),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: const [
+                                    Text('Title ',
                                         style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Mont')),
+                                    Spacer()
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      height:
+                                      MediaQuery.of(context).size.height *
+                                          0.08,
+                                      child: const Text(
+                                          'When a user clicks on a category they are taken to a screen that shows the list of ',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontFamily: 'Mont')),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        DateFormat.yMMMMEEEEd()
+                                            .format(DateTime.now()),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontFamily: 'Mont')),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                      DateFormat.yMMMMEEEEd()
-                                          .format(DateTime.now()),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'Mont')),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ressengaer_app/constants.dart';
+import 'package:ressengaer_app/screen/post_classified.dart';
 
 import '../widgets/my_bottom_navigation_bar.dart';
+import 'chat_dialog.dart';
 
 class DetailClassifieds extends StatelessWidget {
   const DetailClassifieds({Key? key}) : super(key: key);
@@ -44,14 +46,29 @@ class DetailClassifieds extends StatelessWidget {
                 const SizedBox(
                   width: 50,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: kDarkBlue,
-                      borderRadius: BorderRadius.circular(20)),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-                  child: const Text(
-                    'Send Message',
-                    style: TextStyle(color: Colors.white),
+                RawMaterialButton(
+                  onPressed: () {
+                    showDialog<
+                        String>(
+                        context:
+                        context,
+                        builder:
+                            (BuildContext
+                        context) {
+                          return Dialog(
+                            child: ChatDialog(),
+                          );
+                        });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: kDarkBlue,
+                        borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                    child: const Text(
+                      'Send Message',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],
@@ -68,11 +85,14 @@ class DetailClassifieds extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons.arrowCircleLeft,
-                      color: kLightPink,
-                    )),
+                    onPressed: () {
+                      kNavigatorBack(context);
+                    },
+                    icon: const Icon(
+                      Icons.wifi_protected_setup,
+                      color: kMyPink,
+                      size: 40,
+                    ),),
                 const SizedBox(
                   width: 10,
                 ),
@@ -84,20 +104,23 @@ class DetailClassifieds extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    color: kDarkBlue,
-                    borderRadius: BorderRadius.circular(7),
+                RawMaterialButton(
+                  onPressed: () {  kNavigator(context, PostClassified()); },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: kDarkBlue,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: const Center(
+                        child: Text(
+                      'Post',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    )),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: const Center(
-                      child: Text(
-                    'Post',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  )),
                 ),
                 const SizedBox(
                   width: 10,
