@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-postForm(context,title,hintText,width,height){
+postForm(context,title,hintText,width,height,controller){
   return Container(
     margin: EdgeInsets.only(top: 5),
     child: Column(
@@ -32,7 +32,7 @@ postForm(context,title,hintText,width,height){
           child: TextField(
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            //controller: value.getRecordTextController,
+            controller: controller,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,

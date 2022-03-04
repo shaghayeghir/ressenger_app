@@ -2,19 +2,21 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ressengaer_app/screen/notices.dart';
-import 'package:ressengaer_app/screen/seling_items.dart';
-import 'package:ressengaer_app/screen/services.dart';
+import 'package:ressengaer_app/screen/property.dart';
+
+import 'package:ressengaer_app/screen/services_item.dart';
 
 import '../Authentication/confirm.dart';
 import '../constants.dart';
 import '../screen/classifieds.dart';
+import '../screen/services.dart';
 
 mYBottomNavigationBar(context) {
   return StyleProvider(
     style: Style(),
     child: ConvexAppBar(
       color: kMyPink,
-     activeColor: kMyPink,
+      activeColor: kMyPink,
       height: 50,
       top: 0,
 
@@ -22,23 +24,31 @@ mYBottomNavigationBar(context) {
       backgroundColor: Colors.white,
       items: const [
         TabItem(icon: Icons.notifications, title: ''),
-        TabItem(icon: FontAwesomeIcons.thumbtack, title: '',),
-        TabItem(icon: Icons.work_rounded, title: ''),
+        TabItem(
+          icon: FontAwesomeIcons.thumbtack,
+          title: '',
+        ),
+        TabItem(
+            icon: FaIcon(
+              FontAwesomeIcons.briefcase,
+              color: kLightPink,
+            ),
+            title: ''),
         TabItem(icon: FontAwesomeIcons.bullhorn, title: ''),
         TabItem(icon: Icons.message, title: ''),
-
       ],
       //initialActiveIndex: 0,
       //optional, default as 0
       onTap: (int i) {
         if (i == 0) {
           kNavigator(context, Notices());
-        }
-        else  if (i == 1) {
-            kNavigator(context, ClassiFieds());
-        }
-        else  if (i == 2) {
+        } else if (i == 1) {
+          kNavigator(context, ClassiFieds());
+        } else if (i == 2) {
           kNavigator(context, Services());
+        }
+        else if (i == 3) {
+          kNavigator(context, PropertyItems());
         }
       },
     ),

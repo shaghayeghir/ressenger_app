@@ -1,270 +1,252 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:ressengaer_app/Authentication/confirm.dart';
+import 'package:ressengaer_app/Authentication/login.dart';
+import 'package:ressengaer_app/Authentication/sign_up.dart';
+import 'package:ressengaer_app/Model/notice_model.dart';
+import 'package:ressengaer_app/constants.dart';
+import 'package:ressengaer_app/screen/post_classified.dart';
+import 'package:ressengaer_app/screen/profile.dart';
+import 'package:ressengaer_app/screen/services_item.dart';
 import 'package:ressengaer_app/widgets/button.dart';
+import 'package:ressengaer_app/widgets/text_fileds.dart';
 
-import '../constants.dart';
+import '../Utils/custom_snackbar.dart';
+import '../provider/ApiService.dart';
 import '../widgets/my_bottom_navigation_bar.dart';
-import 'chat_dialog.dart';
+import 'clasifieds_ads.dart';
 
-class Services extends StatelessWidget {
-  const Services({Key? key}) : super(key: key);
+class Services extends StatelessWidget implements ApiStatusLogin {
+  Services({Key? key}) : super(key: key);
+  late BuildContext context;
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String myId = auth.currentUser!.uid;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        actions: [
-          Row(
-            children: [
-              const Icon(
-                Icons.wifi_protected_setup,
-                color: kMyPink,
-                size: 40,
-              ),
-              const Text(
-                'Services   ',
-                style: TextStyle(
-                    color: kMyPink,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Mont'),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-              ),
-              RawMaterialButton(
-                onPressed: () {
-                  showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: ChatDialog(),
+        body: Consumer<ApiService>(builder: (context, value, child) {
+          value.apiListener(this);
+          return SafeArea(
+              child: Scaffold(
+                  body:    FutureBuilder<
+                      DocumentSnapshot>(
+                    future: users
+                        .doc(myId)
+                        .get(),
+                    builder: (BuildContext
+                    context,
+                        AsyncSnapshot<
+                            DocumentSnapshot>
+                        snapshot) {
+                      if (snapshot
+                          .hasError) {
+                        return const Text(
+                            "Something went wrong");
+                      }
+
+                      if (snapshot
+                          .hasData &&
+                          !snapshot
+                              .data!
+                              .exists) {
+                        return const Text(
+                            "Document does not exist");
+                      }
+
+                      if (snapshot
+                          .connectionState ==
+                          ConnectionState
+                              .done) {
+                        Map<String,
+                            dynamic> data = snapshot
+                            .data!
+                            .data()
+                        as Map<
+                            String,
+                            dynamic>;
+                        return StreamBuilder<QuerySnapshot>(
+                          stream: context.read<ApiService>().getAllNotice(data['apartmentId']),
+                          builder:
+                              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasData) {
+                              return Scaffold(
+                                bottomNavigationBar: mYBottomNavigationBar(context),
+                                body: Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
+                                        child: Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.push_pin_rounded,
+                                              color: kLightPink,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              'Classifieds',
+                                              style: TextStyle(
+                                                  color: kLightPink,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Spacer(),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Image(
+                                              image: AssetImage('assets/images/wicon.png'),
+                                              width: 50,
+                                              height: 50,
+                                              color: kLightPink,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(color: Colors.grey, thickness: 2),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: const Image(
+                                          image: AssetImage('assets/images/banner.png'),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Expanded(
+                                        child: ListView(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          children: <Widget>[
+                                            Menu('Automotive ', FontAwesomeIcons.tv,true,context),
+                                            Menu('Child Care ', FontAwesomeIcons.couch,true,context),
+                                            Menu('Cleaning', Icons.monitor,true,context),
+                                            Menu('Construction', Icons.monitor,true,context),
+                                            Menu('DSTV', Icons.monitor,true,context),
+                                            Menu('Dj & Entertainment', Icons.monitor,true,context),
+                                            Menu('Educational ', Icons.monitor,true,context),
+                                            Menu('Electronically', Icons.monitor,true,context),
+                                            Menu('Event Services', Icons.monitor,true,context),
+                                            Menu('Handyman', Icons.monitor,true,context),
+                                            Menu('Health & Beauty', Icons.monitor,false,context),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                              //;
+                            } else if (snapshot.hasError) {
+                              return Column(
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.5,
+                                  ),
+                                  Text(snapshot.error.toString()),
+                                ],
+                              );
+                            }
+
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
+                              ),
+                            );
+                          },
                         );
-                      });
-                },
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 14),
-                width: 50,
-                height: 50,
-                child: Image.asset('assets/images/wicon3.png'),
-              ),
-            ],
-          )
-        ],
-      ),
-      bottomNavigationBar: mYBottomNavigationBar(context),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            color: Colors.grey,
-            width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.065,
-          ),
-          const Divider(
-            color: Colors.grey,
-            height: 2,
-            thickness: 2,
-            endIndent: 0.1,
-          ),
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 45, left: 14, top: 10),
-                height: MediaQuery.of(context).size.height * 0.05,
-                child: const Text(
-                  'Automotive',
-                  style: TextStyle(
-                      color: kMyPink,
-                      fontFamily: 'Mont',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              )
-            ],
-          ),
-          const Divider(
-            color: Colors.grey,
-            height: 2,
-            thickness: 2,
-            endIndent: 0.1,
-          ),
-          Expanded(
-            child: ListView(
-              // padding: const EdgeInsets.symmetric(horizontal: 10),
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400)),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.25,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.14,
-                                  child: Image.asset(
-                                    'assets/images/wicon3.png',
-                                    fit: BoxFit.fill,
-                                  )),
-                            ],
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 3),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: const [
-                                    Text('Title test test',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: const [
-                                    Text('Description',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      child: const Text(
-                                          'When a user clicks on a category they are taken to a screen that shows the list of When a user clicks on a category they are taken to a screen that shows the list of When a user clicks on a category they are taken to a screen that shows the list of ',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              color: kMyPink,
-                                              fontSize: 12,
-                                              fontFamily: 'Mont')),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: const [
-                                    Text('Telephone : ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Text('011 890 00000 ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                Row(
-                                  children: const [
-                                    Text('Mobile : ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Text('083 300 6573 ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                Row(
-                                  children: const [
-                                    Text('Email : ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Text('info@ben.co.com',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                Row(
-                                  children: const [
-                                    Text('Website : ',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Text('www.ben.co.za',
-                                        style: TextStyle(
-                                            color: kMyPink,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13,
-                                            fontFamily: 'Mont')),
-                                    Spacer()
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    socialMediaButton(context,
-                                        'assets/images/instegram.png', () {}),
-                                    socialMediaButton(context,
-                                        'assets/images/facebook.png', () {}),
-                                    socialMediaButton(context,
-                                        'assets/images/twitter.png', () {}),
-                                    socialMediaButton(context,
-                                        'assets/images/linkdin.png', () {}),
-                                    Spacer()
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+                      }
+
+                      return const Center(
+                        child: Text(
+                          "loading...",style: TextStyle(color: kMyPink,fontSize: 20,fontFamily: 'Mont'),),
+                      );
+                    },
+                  )
+              ));
+        }));
   }
+
+  @override
+  void accountAvailable() {}
+
+  @override
+  void error() {
+    ModeSnackBar.show(context, 'something go wrong', SnackBarMode.error);
+  }
+
+  @override
+  void inputEmpty() {
+    ModeSnackBar.show(
+        context, 'username or password empty', SnackBarMode.warning);
+  }
+
+  @override
+  void inputWrong() {
+    ModeSnackBar.show(
+        context, 'username or password incorrect', SnackBarMode.warning);
+  }
+
+  @override
+  void login() {
+    //Box b = Hive.box('vet');
+    //b.put('vet', false);
+    // kNavigatorBack(context);
+    // kNavigator(context, Confirm());
+  }
+
+  @override
+  void passwordWeak() {
+    ModeSnackBar.show(context, 'password is weak', SnackBarMode.warning);
+  }
+}
+Widget Menu(String text, IconData icon, bool last,context) {
+  return Column(
+    children: [
+      RawMaterialButton(
+        onPressed: () {
+          kNavigator(context, ServicesItem(category: text,));
+
+        },
+        child: Row(
+          children: [
+            IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  icon,
+                  color: kLightPink,
+                )),
+            // Icon(FaIcon(FontAwesomeIcons.tv),color: kLightPink,),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(text,
+                style: const TextStyle(
+                    color: kLightPink,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+      Visibility(
+          visible: last,
+          child: const Divider(
+            color: kLightPink,
+            thickness: 2,
+            height: 0,
+          )),
+    ],
+  );
 }

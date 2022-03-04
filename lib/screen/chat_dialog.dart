@@ -73,9 +73,9 @@ backgroundColor: kMyPink,
                 color: Colors.white,
                 height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width * 0.7,
-                child:  TextField(
-                  controller: value.getRecordTextController,
-                  decoration: const InputDecoration(border: InputBorder.none, focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, disabledBorder: InputBorder.none, contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15), hintText: "your message...",
+                child:  const TextField(
+                 // controller: ,
+                  decoration: InputDecoration(border: InputBorder.none, focusedBorder: InputBorder.none, enabledBorder: InputBorder.none, errorBorder: InputBorder.none, disabledBorder: InputBorder.none, contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15), hintText: "your message...",
                       hintStyle: TextStyle(
                         fontSize: 12,
                         color: kMyPink,
