@@ -1028,6 +1028,7 @@ class ApiService extends ChangeNotifier {
         }
       }).onError((error, stackTrace) {
         if (error.toString().contains('wrong-password')) {
+
           apiStatus.inputWrong();
         } else {
           apiStatus.error();
