@@ -41,10 +41,15 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                     actions: [
                       Row(
                         children: [
-                          const Icon(
-                            Icons.wifi_protected_setup,
-                            color: kMyPink,
-                            size: 40,
+                          InkWell(
+                            onTap: (){
+                              kNavigatorBack(context);
+                            },
+                            child: const Icon(
+                              Icons.wifi_protected_setup,
+                              color: kMyPink,
+                              size: 40,
+                            ),
                           ),
                           const Text(
                             'Classifieds',
@@ -198,7 +203,7 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                 children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              kNavigator(context, const DetailClassifieds());
+                                                              kNavigator(context, DetailClassifieds(category: category, documentId: document.id,));
                                                             },
                                                             child: Container(
                                                               color: kMyPink,
@@ -319,7 +324,8 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      kNavigator(context, const DetailClassifieds());
+
+                                                      kNavigator(context,  DetailClassifieds(category: category, documentId: document.id,));
                                                     },
                                                     child: Container(
                                                       color: kMyPink,

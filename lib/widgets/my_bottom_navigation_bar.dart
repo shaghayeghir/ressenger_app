@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ressengaer_app/screen/chat_list.dart';
 import 'package:ressengaer_app/screen/notices.dart';
 import 'package:ressengaer_app/screen/property.dart';
 
@@ -49,6 +50,9 @@ mYBottomNavigationBar(context) {
         }
         else if (i == 3) {
           kNavigator(context, PropertyItems());
+        }
+        else if (i == 4) {
+          kNavigator(context, ChatList());
         }
       },
     ),

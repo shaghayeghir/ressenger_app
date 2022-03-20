@@ -15,7 +15,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
   price: json['price'] as String,
   sale: json['sale'] as String,
   rent: json['rent'] as String,
-
+  senderName: json['senderName'] as String?,
 
 );
 
@@ -28,6 +28,7 @@ Map<String, dynamic> _$PropertyDataToJson(PropertyData instance) => <String, dyn
   'price': instance.price,
   'sale': instance.sale,
   'rent': instance.rent,
+  'senderName': instance.senderName,
 
 
 };

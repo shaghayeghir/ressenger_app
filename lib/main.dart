@@ -16,17 +16,12 @@ void main()async {
 
 class MyApp extends StatelessWidget {
    MyApp({Key? key}) : super(key: key);
-  FirebaseAuth auth = FirebaseAuth.instance;
-  bool loggedIn = false;
+
 
 
   @override
   Widget build(BuildContext context) {
-    if (auth.currentUser != null) {
-      loggedIn = true;
-    } else {
-      loggedIn = false;
-    }
+
     return MultiProvider(providers: [
 
       ChangeNotifierProvider(create: (context) => ApiService(),),
@@ -38,8 +33,49 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home:(loggedIn)?Notices(): LoginOrSignup(),
+        home:SplashScreen()
+        //
       ),);
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return SplashScreenState();
+  }
+}
+
+class SplashScreenState extends State<SplashScreen> {
+  @override
+  FirebaseAuth auth = FirebaseAuth.instance;
+  bool loggedIn = false;
+  void initState() {
+    if (auth.currentUser != null) {
+      loggedIn = true;
+    } else {
+      loggedIn = false;
+    }
+    super.initState();
+    Future.delayed(Duration(seconds: 4), () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => (loggedIn)?Notices(): LoginOrSignup(),),
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kMyPink,
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height*0.1,
+            child: Image.asset('assets/images/ressengerlogo2.png')),
+      )
+    );
   }
 }
 

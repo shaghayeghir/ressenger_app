@@ -10,14 +10,16 @@ import '../provider/ApiService.dart';
 class SelectCity extends StatelessWidget {
   var previosScreen;
 
-   SelectCity({required this.previosScreen}) ;
+  var countryName;
+
+   SelectCity({required this.previosScreen,required this.countryName}) ;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ApiService>(
       builder: (context, value, child) {
         return StreamBuilder<QuerySnapshot>(
-            stream: context.read<ApiService>().getCity(),
+            stream: context.read<ApiService>().getCity(countryName),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -79,11 +81,11 @@ class SelectCity extends StatelessWidget {
                               SizedBox(
                                 width: 40,
                               ),
-                              Image(
-                                image: AssetImage('assets/images/1.png'),
-                                height: 40,
-                                width: 40,
-                              ),
+                              // Image(
+                              //   image: AssetImage('assets/images/1.png'),
+                              //   height: 40,
+                              //   width: 40,
+                              // ),
                             ],
                           ),
                           const SizedBox(
@@ -106,7 +108,12 @@ class SelectCity extends StatelessWidget {
                                         }
                                         else if(previosScreen=='profile'){
                                           String val= snapshot.data!.docs[index].get('city');
-                                          value.setCity(val.toString());
+                                          context.read<ApiService>().updateCity(
+                                            context,
+                                            snapshot.data!.docs[index]
+                                                .get('city'),
+                                          );
+                                          value.setCity(val);
                                           kNavigator(context, AddBuilding());
                                           print(value.country);
                                           print(value.city);

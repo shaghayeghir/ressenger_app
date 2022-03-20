@@ -94,8 +94,14 @@ class SelectCountry extends StatelessWidget {
                                        else if(previusScreen=='profile'){
                                          String val=  snapshot.data!.docs[index]
                                              .get('country');
-                                         value.setCountry(val.toString());
-                                         kNavigator(context, SelectCity(previosScreen: previusScreen,));
+                                         value.setCountry(val);
+                                         context.read<ApiService>().updateCountry(
+                                           context,
+                                           snapshot.data!.docs[index]
+                                               .get('country'),
+                                         );
+                                         kNavigator(context, SelectCity(previosScreen: previusScreen, countryName: snapshot.data!.docs[index]
+                                             .get('country'),));
                                        }
                                       },
                                       child: Row(

@@ -31,7 +31,7 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.wifi_protected_setup,
                       color: kMyPink,
                       size: 40,

@@ -51,8 +51,9 @@ class AddBuilding extends StatelessWidget implements ApiStatusLogin {
                     value.setApartment(value.buildingNameController.text);
                     value.setApartmentId(value.myUser);
                     value.updateApartment(context);
+                    value.setApartment(value.buildingNameController.text);
 
-                value.addMyBuilding();
+                value.addMyBuilding(context);
 
 
 

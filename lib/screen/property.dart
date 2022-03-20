@@ -9,6 +9,7 @@ import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/Model/ad.dart';
 import 'package:ressengaer_app/Model/property_model.dart';
 import 'package:ressengaer_app/constants.dart';
+import 'package:ressengaer_app/screen/detailproperty.dart';
 import 'package:ressengaer_app/screen/post_classified.dart';
 import 'package:ressengaer_app/screen/post_property.dart';
 import '../Utils/custom_snackbar.dart';
@@ -60,17 +61,7 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                         ),
                         RawMaterialButton(
                           onPressed: () {
-                            // showDialog<
-                            //     String>(
-                            //     context:
-                            //     context,
-                            //     builder:
-                            //         (BuildContext
-                            //     context) {
-                            //       return Dialog(
-                            //         child: ChatDialog(),
-                            //       );
-                            //     });
+
                             kNavigator(context, PostProperty());
                           },
                           child: Container(
@@ -198,7 +189,7 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                                                                         onTap: () {
                                                                           kNavigator(
                                                                               context,
-                                                                              const DetailClassifieds());
+                                                                              DetailProperty(documentId: document.id));
                                                                         },
                                                                         child:
                                                                             Container(
@@ -315,10 +306,9 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                                                                     children: [
                                                                       InkWell(
                                                                         onTap: () {
-                                                                          print(fs.collection('apartment').doc(value.groupApartment).collection('property').doc(document.id));
-                                                                          // kNavigator(
-                                                                          //     context,
-                                                                          //     const DetailClassifieds());
+                                                                          kNavigator(
+                                                                              context,
+                                                                              DetailProperty(documentId: document.id));
                                                                         },
                                                                         child:
                                                                             Container(

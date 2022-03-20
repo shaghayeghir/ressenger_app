@@ -14,6 +14,7 @@ adData _$adDataFromJson(Map<String, dynamic> json) => adData(
   image: json['image'] as String,
   price: json['price'] as String,
   sender: json['sender'] as String,
+  senderName: json['senderName'] as String?,
 
 
 );
@@ -26,6 +27,7 @@ Map<String, dynamic> _$adDataToJson(adData instance) => <String, dynamic>{
   'image': instance.image,
   'price': instance.price,
   'sender': instance.sender,
+  'senderName':instance.senderName,
 
 
 };
