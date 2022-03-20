@@ -12,6 +12,7 @@ class PropertyData {
   String price = '';
   String sale = '';
   String rent = '';
+  String? senderName='';
 
   PropertyData({
     required this.sender,
@@ -22,6 +23,7 @@ class PropertyData {
     required this.price,
     required this.sale,
     required this.rent,
+    required this.senderName,
 
 
   });

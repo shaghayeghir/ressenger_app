@@ -11,6 +11,7 @@ class adData {
   String image = '';
   String price = '';
   String sender = '';
+  String? senderName='';
 
 
   adData({
@@ -21,6 +22,7 @@ class adData {
     required this.image,
     required this.price,
     required this.sender,
+    required this.senderName,
 
   });
 

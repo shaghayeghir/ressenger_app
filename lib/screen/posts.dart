@@ -187,9 +187,9 @@ class Posts extends StatelessWidget {
                                                                           children: [
                                                                                 InkWell(
                                                                                   onTap: () {
-                                                                                    kNavigator(
-                                                                                        context,
-                                                                                        const DetailClassifieds());
+                                                                                    // kNavigator(
+                                                                                    //     context,
+                                                                                    //      DetailClassifieds(category:,));
                                                                                   },
                                                                                   child:
                                                                                   Container(
@@ -205,8 +205,8 @@ class Posts extends StatelessWidget {
                                                                                     Container(
                                                                                       width: MediaQuery.of(context)
                                                                                           .size
-                                                                                          .width *
-                                                                                          0.85,
+                                                                           .width *
+                                                                                                         0.85,
                                                                                       height: MediaQuery.of(context)
                                                                                           .size
                                                                                           .height *

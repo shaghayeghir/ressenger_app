@@ -198,7 +198,7 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                 children: [
                                                           InkWell(
                                                             onTap: () {
-                                                              kNavigator(context, const DetailClassifieds());
+                                                              kNavigator(context, DetailClassifieds(category: category, documentId: document.id,));
                                                             },
                                                             child: Container(
                                                               color: kMyPink,
@@ -319,7 +319,8 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      kNavigator(context, const DetailClassifieds());
+
+                                                      kNavigator(context,  DetailClassifieds(category: category, documentId: document.id,));
                                                     },
                                                     child: Container(
                                                       color: kMyPink,

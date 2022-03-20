@@ -12,6 +12,7 @@ import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/Model/ad.dart';
 import 'package:ressengaer_app/Model/building.dart';
 import 'package:ressengaer_app/Model/building_list.dart';
+import 'package:ressengaer_app/Model/message.dart';
 import 'package:ressengaer_app/Model/notice_model.dart';
 import 'package:ressengaer_app/Model/property_model.dart';
 import 'package:ressengaer_app/Model/service_model.dart';
@@ -63,6 +64,19 @@ class ApiService extends ChangeNotifier {
   String propertyDocId='';
 
   String othersName = '';
+  //------------------message----------------------
+  String? sender='';
+  String getter = '';
+  String senderUid = '';
+  String getterUid = '';
+  String messageTime = '';
+  String messageImage = '';
+  String pm = '';
+  TextEditingController messageController = TextEditingController();
+
+  TextEditingController get getMessageController => messageController;
+  //------------------message----------------------
+
 
   bool loadingAuth = false;
   bool isEmailVerified = false;
@@ -161,6 +175,14 @@ class ApiService extends ChangeNotifier {
   setCity(String val) => city = val;
 
   setApartment(String val) => apartment = val;
+  setMessageSender(String? val) => sender = val;
+  setMessageGetter(String val) => getter = val;
+
+  setMessageSenderUid(String val) => senderUid = val;
+  setMessageGetterUid(String val) => getterUid = val;
+
+  setMessageTime(String val) => messageTime = val;
+  setMessageImage(String val) => messageImage = val;
 
   setApartmentId(String val) => apartmentId = val;
 
@@ -330,7 +352,7 @@ class ApiService extends ChangeNotifier {
               description: postClassifiedDescriptionController.text,
               time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
               image: value,
-              price: postClassifiedPriceController.text, sender: myUser);
+              price: postClassifiedPriceController.text, sender: myUser, senderName:myUserName);
           fs
               .collection('apartment')
               .doc(groupApartment)
@@ -359,7 +381,7 @@ class ApiService extends ChangeNotifier {
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
             image: '',
             price: postClassifiedPriceController.text,
-            sender: myUser
+            sender: myUser, senderName: myUserName
         );
         fs
             .collection('apartment')
@@ -405,7 +427,7 @@ class ApiService extends ChangeNotifier {
               description: postPropertyDescriptionController.text,
               time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
               image: value,
-              price: postPropertyPriceController.text, sender: myUser, sale:propertyType, rent: propertyType);
+              price: postPropertyPriceController.text, sender: myUser, sale:propertyType, rent: propertyType, senderName: myUserName);
               fs.collection('apartment').doc(groupApartment).collection('property')
               .add(propertyData.toJson()).then((value) => {
                 fs
@@ -428,7 +450,7 @@ class ApiService extends ChangeNotifier {
             description: postClassifiedDescriptionController.text,
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
             image: '',
-            price: postClassifiedPriceController.text, sender: myUser, rent: propertyType, sale: propertyType);
+            price: postClassifiedPriceController.text, sender: myUser, rent: propertyType, sale: propertyType, senderName: myUserName);
         fs.collection('apartment').doc(groupApartment).collection('property')
             .add(propertyData.toJson()).then((value) => {
           fs
@@ -615,7 +637,9 @@ class ApiService extends ChangeNotifier {
                 time: '',
                 image: '',
                 price: '',
-                sender: '');
+                sender: '', senderName: '');
+            Message message = Message('','','','',getterUid: '', image: '', senderUid: '', getter: '', sender: '', time: '', pm: ''
+              );
             NoticeData noticeData =
                 NoticeData(title: '', description: '', time: '');
             ServiceData serviceData = ServiceData(
@@ -639,7 +663,7 @@ class ApiService extends ChangeNotifier {
                 image: '',
                 price: '',
                 rent: '',
-                sale: '');
+                sale: '', senderName: '');
             BuildingListData buildingListData =
                 BuildingListData(id: myUser, name: name);
             fs
@@ -712,7 +736,7 @@ class ApiService extends ChangeNotifier {
                 .then((value) => fs.collection('apartment').doc(myUser).collection('services').doc('Health & Beauty').collection('ads').add(serviceData.toJson()))
                 .then((value) => fs.collection('apartment').doc(myUser).collection('property').add(propertyData.toJson()))
                 .then((value) => fs.collection('apartment_list').add(buildingListData.toJson()))
-                .then((value) => fs.collection('apartment').doc(myUser).collection('message').add(AdData.toJson()));
+                .then((value) => fs.collection('apartment').doc(myUser).collection('message').add(message.toJson()));
           }).whenComplete(() => apiStatus.login());
 
           clearInputPet();
@@ -768,10 +792,45 @@ class ApiService extends ChangeNotifier {
         .orderBy('time')
         .snapshots();
   }
+  sendMessage(context) {
+  Message message =Message('','','''''','',sender: sender, getter: getter, senderUid: senderUid, getterUid: getterUid, image: messageImage, time: messageTime, pm:messageController.text);
+    Map<String, dynamic> map = {};
+    map['senderUidDoc'] = senderUid;
+    map['getterUidDoc']=getterUid;
+    map['senderDoc'] = sender;
+    map['getterDoc']=getter;
+    map['time']=DateTime.now();
+    fs.collection('users').doc(senderUid).collection('message').doc(getterUid).set(map).then((value) => {
+      fs.collection('users').doc(senderUid).collection('message').doc(getterUid).collection('chats').add(message.toJson())
+    }).then((value) =>     fs.collection('users').doc(getterUid).collection('message').doc(senderUid).set(map).then((value) => {
+    fs.collection('users').doc(getterUid).collection('message').doc(senderUid).collection('chats').add(message.toJson())})
+        .whenComplete(() {
+      messageController.text = '';
+      // ModeSnackBar.show(context, ' sent', SnackBarMode.success);
+      // kNavigatorBack(context);
+    }));
+  }
+  Stream<QuerySnapshot> getAllMessageList() {
+    return fs.collection('users').doc(myUser).collection('message').orderBy('time',descending: true).snapshots();
+
+  }
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessageDetails(whichDoc) {
+    return fs.collection('users').doc(myUser).collection('message').doc(whichDoc).collection('chats').orderBy('time', descending: true).snapshots();
+
+  }
   Stream<QuerySnapshot> getAllClassifiedAds(myApartment,category) {
     return fs.collection('apartment').doc(myApartment).collection('classifieds').doc(category).collection('ads').orderBy('time').snapshots();
 
   }
+  Future<DocumentSnapshot<Map<String, dynamic>>> getClassifiedAdsDetails(myApartment,category,documentId) {
+    return fs.collection('apartment').doc(myApartment).collection('classifieds').doc(category).collection('ads').doc(documentId).get();
+
+  }
+  Future<DocumentSnapshot<Map<String, dynamic>>> getPropertyAdsDetails(documentId) {
+    return fs.collection('apartment').doc(groupApartment).collection('property').doc(documentId).get();
+
+  }
+
   Stream<QuerySnapshot> getAllServiceAds(category) {
     print(fs.collection('services').doc(category).collection('ads').doc().path);
 

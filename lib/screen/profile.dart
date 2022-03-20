@@ -84,14 +84,19 @@ class ProFileScreen extends StatelessWidget implements ApiStatusLogin {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 20),
-                                child: const CircleAvatar(
-                                  backgroundColor: kLightPink,
-                                  child: Center(
-                                    child: Text(
-                                      'x',
-                                      style: TextStyle(fontSize: 30),
+                              InkWell(
+                                onTap: (){
+                                  kNavigatorBack(context);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: const CircleAvatar(
+                                    backgroundColor: kLightPink,
+                                    child: Center(
+                                      child: Text(
+                                        'x',
+                                        style: TextStyle(fontSize: 30),
+                                      ),
                                     ),
                                   ),
                                 ),
