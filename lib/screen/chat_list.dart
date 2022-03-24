@@ -46,20 +46,59 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
 
                         if (snapshot.hasData) {
                           if (snapshot.data!.docs.isEmpty) {
-                            return Center(
-                              child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(.1),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(16),
-                                  child: const Text(
-                                    'No Contact...',
-                                    style: TextStyle(color: Colors.white, fontSize: 16),
-                                  )),
-                            );
+                            return Container(
+
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(.1),
+                                    borderRadius: BorderRadius.circular(15)),
+                                alignment: Alignment.center,
+
+                                child: Scaffold(
+                                  bottomNavigationBar: mYBottomNavigationBar(context),
+                                  body: Column(
+                                    children: [
+                                      Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.message,
+                                            color: kLightPink,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'Messages',
+                                            style: TextStyle(
+                                                color: kLightPink,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Spacer(),
+
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Image(
+                                            image: AssetImage('assets/images/wicon.png'),
+                                            width: 50,
+                                            height: 50,
+                                            color: kLightPink,
+                                          )
+                                        ],
+                                      ),
+                                      const Divider(color: Colors.grey, thickness: 2),
+                                      const SizedBox(
+                                        height: 250,
+                                      ),
+                                      const Center(
+                                        child: Text(
+                                          'No Content...',
+                                          style: TextStyle(color: kMyPink, fontSize: 16),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ));
                           }
                           // return Text('data');
 
@@ -116,7 +155,7 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
 
                                           return  Dismissible(
                                             direction: DismissDirection.endToStart,
-                                            background: Container(color: Colors.red,child: Center(child: Icon(Icons.delete,color: Colors.white,)),),
+                                            background: Container(color: Colors.red,child: const Center(child: const Icon(Icons.delete,color: Colors.white,)),),
                                             key: ValueKey(snapshot.data!.docs[index]),
                                             onDismissed: (DismissDirection direction) {
                                               fs.collection('users').doc(snapshot.data!.docs[index].get('senderUidDoc')).collection('message').doc(snapshot.data!.docs[index].id).delete();
@@ -173,7 +212,7 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
                                                         ),
                                                       ),
                                                     ),
-                                                    Divider(color: kMyPink,thickness: 0.4,)
+                                                    const Divider(color: kMyPink,thickness: 0.4,)
                                                   ],
                                                 )
                                                     :Container()

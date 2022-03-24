@@ -22,6 +22,7 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
   @override
   Widget build(BuildContext context) {
     this.context = context;
+    List<XFile> multiPickedImage=[];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -186,13 +187,25 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
         })));
   }
 
+  // Future<List<XFile>> _pickImageFromGallery(BuildContext context) async {
+  //   final ImagePicker _picker = ImagePicker();
+  //   final List<XFile>? images = await _picker.pickMultiImage();
+  //   if (images != null && images.isNotEmpty) {
+  //
+  //     return images;
+  //     //context.read<ApiService>().setImagePath(pickedFile.path);
+  //   }
+  //    print(images?.length);
+  //   return [];
+  // }
   Future<void> _pickImageFromGallery(BuildContext context) async {
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       context.read<ApiService>().setImagePath(pickedFile.path);
     }
   }
+
 
   @override
   void accountAvailable() {}

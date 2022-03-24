@@ -94,7 +94,7 @@ class Services extends StatelessWidget implements ApiStatusLogin {
                                               width: 10,
                                             ),
                                             Text(
-                                              'Classifieds',
+                                              'Services',
                                               style: TextStyle(
                                                   color: kLightPink,
                                                   fontSize: 25,

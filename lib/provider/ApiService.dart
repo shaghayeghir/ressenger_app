@@ -288,6 +288,9 @@ class ApiService extends ChangeNotifier {
   Stream<QuerySnapshot> getApartment() {
     return fs.collection('apartment_list').snapshots();
   }
+  Stream<QuerySnapshot> getApartment2(String query) {
+    return fs.collection('apartment_list').where('name' , isGreaterThanOrEqualTo: query).snapshots();
+  }
 
   Stream<QuerySnapshot> getBanner() {
     return fs.collection('banner').snapshots();
@@ -782,7 +785,7 @@ class ApiService extends ChangeNotifier {
         .collection('apartment')
         .doc(myApartment)
         .collection('notices')
-        .orderBy('time')
+        .orderBy('time',descending: true)
         .snapshots();
   }
   sendMessage(context)async {
