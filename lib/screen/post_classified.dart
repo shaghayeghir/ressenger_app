@@ -17,7 +17,7 @@ import 'dart:io';
 
 class PostClassified extends StatelessWidget implements ApiStatusLogin {
   late BuildContext context;
-  List<XFile>? multiPickedImage;
+  List multiPickedImage = [];
 
   @override
   Widget build(BuildContext context) {
@@ -137,18 +137,14 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                                   height: 100,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: multiPickedImage!.length,
+                                      itemCount: multiPickedImage.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return Row(
                                           children: [
                                             Container(
-                                              child: Image.file(
-
-                                                  File(
-                                                  multiPickedImage![index]
-                                                      .path)),
-
+                                              child: Image.file(File(
+                                                  value.listimagepath[index])),
                                             ),
                                             SizedBox(
                                               width: 10,
@@ -194,6 +190,8 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                     //      value.classifiedType.isNotEmpty
                     // ){
                     value.submitClassifiedPost(context);
+                    print(value.listimagepath[0]);
+                    // value.submit(context);
                     // }
                     // else{
                     //   print(value.postClassifiedTitleController.text);
@@ -211,12 +209,15 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
   }
 
   Future<List<XFile>> _pickImageFromGallery2(BuildContext context) async {
+    multiPickedImage = [];
     final ImagePicker _picker = ImagePicker();
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != null && images.isNotEmpty) {
-      multiPickedImage = images;
-      print(multiPickedImage!.first.path);
-      context.read<ApiService>().setListImagePath(images);
+      for (int i = 0; i < images.length; i++) {
+        multiPickedImage.add(images[i].path);
+      }
+      print(multiPickedImage);
+      context.read<ApiService>().setListImagePath(multiPickedImage);
       return images;
     }
     print(images?.length);

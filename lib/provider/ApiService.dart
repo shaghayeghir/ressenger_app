@@ -47,7 +47,7 @@ class ApiService extends ChangeNotifier {
   bool checkRegister1 = false;
   bool checkRegister2 = false;
   String address = '';
-  String messageSent='';
+  String messageSent = '';
   bool vet = false;
   String selectedPet = '';
   String petId = '';
@@ -57,12 +57,13 @@ class ApiService extends ChangeNotifier {
 
   String services = '';
   String imagePath = '';
-  List<XFile> listimagepath = [];
-  String propertyDocId='';
+  List listimagepath = [];
+  String propertyDocId = '';
 
   String othersName = '';
+
   //------------------message----------------------
-  String? sender='';
+  String? sender = '';
   String getter = '';
   String senderUid = '';
   String getterUid = '';
@@ -72,8 +73,8 @@ class ApiService extends ChangeNotifier {
   TextEditingController messageController = TextEditingController();
 
   TextEditingController get getMessageController => messageController;
-  //------------------message----------------------
 
+  //------------------message----------------------
 
   bool loadingAuth = false;
   bool isEmailVerified = false;
@@ -107,8 +108,8 @@ class ApiService extends ChangeNotifier {
   UploadStatus get getUploadStatus => uploadStatus;
 
   String get myUser => auth.currentUser!.uid;
-  String? get myUserName => auth.currentUser!.email;
 
+  String? get myUserName => auth.currentUser!.email;
 
   // String get getAddress => address;
   // String get myCity => city;
@@ -142,27 +143,36 @@ class ApiService extends ChangeNotifier {
 //-------------------------postClassifiedControlle----------------------------------
   TextEditingController postClassifiedTitleController = TextEditingController();
 
-  TextEditingController get getPostClassifiedTitleController => postClassifiedTitleController;
+  TextEditingController get getPostClassifiedTitleController =>
+      postClassifiedTitleController;
   TextEditingController postClassifiedPriceController = TextEditingController();
 
-  TextEditingController get getPostClassifiedPriceController => postClassifiedPriceController;
-  TextEditingController postClassifiedDescriptionController = TextEditingController();
+  TextEditingController get getPostClassifiedPriceController =>
+      postClassifiedPriceController;
+  TextEditingController postClassifiedDescriptionController =
+      TextEditingController();
 
-  TextEditingController get getPostClassifiedDescriptionController => postClassifiedDescriptionController;
+  TextEditingController get getPostClassifiedDescriptionController =>
+      postClassifiedDescriptionController;
+
   //---------------------post property------------------------------------------------------
   TextEditingController postPropertyTitleController = TextEditingController();
 
-  TextEditingController get getPostPropertyTitleController => postPropertyTitleController;
+  TextEditingController get getPostPropertyTitleController =>
+      postPropertyTitleController;
   TextEditingController postPropertyPriceController = TextEditingController();
 
-  TextEditingController get getPostPropertyPriceController => postPropertyPriceController;
-  TextEditingController postPropertyDescriptionController = TextEditingController();
+  TextEditingController get getPostPropertyPriceController =>
+      postPropertyPriceController;
+  TextEditingController postPropertyDescriptionController =
+      TextEditingController();
 
-  TextEditingController get getPostPropertyDescriptionController => postPropertyDescriptionController;
-
+  TextEditingController get getPostPropertyDescriptionController =>
+      postPropertyDescriptionController;
 
   // SET
   setGroupApartment(String val) => groupApartment = val;
+
   setCheckRegister1(bool val) => checkRegister1 = val;
 
   setCheckRegister2(bool val) => checkRegister2 = val;
@@ -172,19 +182,22 @@ class ApiService extends ChangeNotifier {
   setCity(String val) => city = val;
 
   setApartment(String val) => apartment = val;
+
   setMessageSender(String? val) => sender = val;
+
   setMessageGetter(String val) => getter = val;
 
   setMessageSenderUid(String val) => senderUid = val;
+
   setMessageGetterUid(String val) => getterUid = val;
 
   setMessageTime(String val) => messageTime = val;
+
   setMessageImage(String val) => messageImage = val;
 
   setApartmentId(String val) => apartmentId = val;
+
   setMessageSent(String val) => messageSent = val;
-
-
 
   setServices(String val) => services = val;
 
@@ -194,7 +207,8 @@ class ApiService extends ChangeNotifier {
     imagePath = val;
     notifyListeners();
   }
-  setListImagePath(List<XFile> list){
+
+  setListImagePath(List list) {
     listimagepath = list;
     notifyListeners();
   }
@@ -208,21 +222,15 @@ class ApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   setClassifiedType(String val) => classifiedType = val;
+
   setPropertyType(String val) => propertyType = val;
-
-
-
 
   setOthers(String name) {
     othersName = name;
   }
 
   setVet(bool b) => vet = b;
-
-
 
   clearInputPet() {
     buildingNameController.text = '';
@@ -276,13 +284,11 @@ class ApiService extends ChangeNotifier {
     }
   }
 
-
-
-
   Stream<QuerySnapshot> getAllMyPosts() {
     return fs.collection('users').doc(myUser).collection('posts').snapshots();
   }
-  Future<DocumentSnapshot<Map<String, dynamic>>> getalltest(){
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getalltest() {
     return fs.collection('test').doc(myUser).get();
   }
 
@@ -291,14 +297,22 @@ class ApiService extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getCity(countryName) {
-    return fs.collection('country').doc(countryName).collection('city').snapshots();
+    return fs
+        .collection('country')
+        .doc(countryName)
+        .collection('city')
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getApartment() {
     return fs.collection('apartment_list').snapshots();
   }
+
   Stream<QuerySnapshot> getApartment2(String query) {
-    return fs.collection('apartment_list').where('name' , isGreaterThanOrEqualTo: query).snapshots();
+    return fs
+        .collection('apartment_list')
+        .where('name', isGreaterThanOrEqualTo: query)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getBanner() {
@@ -338,46 +352,72 @@ class ApiService extends ChangeNotifier {
     });
   }
 
+  submit(context) async {
+    for (int i = 0; i <= listimagepath.length; i++) {
+      String filename =
+          '${myUser}_classified_${DateTime.now()} .${listimagepath[i].substring(listimagepath[i].length - 3)}';
+      File file = File(listimagepath[i]);
+      TaskSnapshot snapshot = await storage
+          .ref()
+          .child('$myUser/classifieds/$filename')
+          .putFile(file);
+      snapshot.ref.getDownloadURL().then((value) {
+        print(value);
+      });
+    }
+  }
+
   submitClassifiedPost(context) async {
     setLoading(true);
 
     String title = '';
     {
-      if (imagePath.isNotEmpty) {
-        String filename =
-            '${myUser}_classified_${DateTime.now()} .${imagePath.substring(imagePath.length - 3)}';
-        File file = File(imagePath);
-        TaskSnapshot snapshot = await storage
-            .ref()
-            .child('$myUser/classifieds/$filename')
-            .putFile(file);
-        snapshot.ref.getDownloadURL().then((value) {
-          adData AdData = adData(
-              category: classifiedType,
-              title: postClassifiedTitleController.text,
-              description: postClassifiedDescriptionController.text,
-              time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
-              image: value,
-              price: postClassifiedPriceController.text, sender: myUser, senderName:myUserName);
-          fs
-              .collection('apartment')
-              .doc(groupApartment)
-              .collection('classifieds')
-              .doc(classifiedType)
-              .collection('ads')
-              .add(AdData.toJson()).then((value) => {
-            fs
-                .collection('users')
-                .doc(myUser)
-                .collection('posts')
-                .add(AdData.toJson())
-          }).whenComplete(()  {
-            ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+      if (listimagepath.isNotEmpty) {
+        List list = [];
+        for (int i = 0; i < listimagepath.length; i++) {
+          String filename =
+              '${myUser}_classified_${DateTime.now()} .${listimagepath[i].substring(listimagepath[i].length - 3)}';
+          File file = File(listimagepath[i]);
+          TaskSnapshot snapshot = await storage
+              .ref()
+              .child('$myUser/classifieds/$filename')
+              .putFile(file);
+          snapshot.ref.getDownloadURL().then((value) {
+            list.add(value);
+          }).onError((error, stackTrace) {
+            ModeSnackBar.show(context, 'try again', SnackBarMode.error);
+            print(error);
           });
-        }).onError((error, stackTrace) {
-          ModeSnackBar.show(context, 'try again', SnackBarMode.error);
-          print(error);
+        }
 
+        adData AdData = adData(
+            category: classifiedType,
+            title: postClassifiedTitleController.text,
+            description: postClassifiedDescriptionController.text,
+            time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
+            image: list,
+            price: postClassifiedPriceController.text,
+            sender: myUser,
+            senderName: myUserName);
+        fs
+            .collection('apartment')
+            .doc(groupApartment)
+            .collection('classifieds')
+            .doc(classifiedType)
+            .collection('ads')
+            .add(AdData.toJson())
+            .then((value) => {
+                  fs
+                      .collection('users')
+                      .doc(myUser)
+                      .collection('posts')
+                      .add(AdData.toJson())
+                })
+            .whenComplete(() {
+          ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+        }).onError((error, stackTrace) {
+          print(error);
+          return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
         });
       } else {
         adData AdData = adData(
@@ -385,34 +425,34 @@ class ApiService extends ChangeNotifier {
             title: postClassifiedTitleController.text,
             description: postClassifiedDescriptionController.text,
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
-            image: '',
+            image: [],
             price: postClassifiedPriceController.text,
-            sender: myUser, senderName: myUserName
-        );
+            sender: myUser,
+            senderName: myUserName);
         fs
             .collection('apartment')
             .doc(groupApartment)
             .collection('classifieds')
             .doc(classifiedType)
             .collection('ads')
-            .add(AdData.toJson()).then((value) => {
-          fs
-              .collection('users')
-              .doc(myUser)
-              .collection('posts')
-              .add(AdData.toJson())
-        }).whenComplete((){
+            .add(AdData.toJson())
+            .then((value) => {
+                  fs
+                      .collection('users')
+                      .doc(myUser)
+                      .collection('posts')
+                      .add(AdData.toJson())
+                })
+            .whenComplete(() {
           ModeSnackBar.show(context, 'posted', SnackBarMode.success);
         }).onError((error, stackTrace) {
           print(error);
           return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
-
         });
       }
-
     }
-
   }
+
   submitPropertyPost(context) async {
     setLoading(true);
 
@@ -428,55 +468,66 @@ class ApiService extends ChangeNotifier {
             .putFile(file);
         snapshot.ref.getDownloadURL().then((value) {
           PropertyData propertyData = PropertyData(
-
               title: postPropertyTitleController.text,
               description: postPropertyDescriptionController.text,
               time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
               image: value,
-              price: postPropertyPriceController.text, sender: myUser, sale:propertyType, rent: propertyType, senderName: myUserName);
-              fs.collection('apartment').doc(groupApartment).collection('property')
-              .add(propertyData.toJson()).then((value) => {
-                fs
-                    .collection('users')
-                    .doc(myUser)
-                    .collection('posts')
-                    .add(propertyData.toJson())
-              }).whenComplete(()  {
+              price: postPropertyPriceController.text,
+              sender: myUser,
+              sale: propertyType,
+              rent: propertyType,
+              senderName: myUserName);
+          fs
+              .collection('apartment')
+              .doc(groupApartment)
+              .collection('property')
+              .add(propertyData.toJson())
+              .then((value) => {
+                    fs
+                        .collection('users')
+                        .doc(myUser)
+                        .collection('posts')
+                        .add(propertyData.toJson())
+                  })
+              .whenComplete(() {
             ModeSnackBar.show(context, 'posted', SnackBarMode.success);
           });
         }).onError((error, stackTrace) {
           ModeSnackBar.show(context, 'try again', SnackBarMode.error);
           print(error);
-
         });
       } else {
         PropertyData propertyData = PropertyData(
-
             title: postClassifiedTitleController.text,
             description: postClassifiedDescriptionController.text,
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
             image: '',
-            price: postClassifiedPriceController.text, sender: myUser, rent: propertyType, sale: propertyType, senderName: myUserName);
-        fs.collection('apartment').doc(groupApartment).collection('property')
-            .add(propertyData.toJson()).then((value) => {
-          fs
-              .collection('users')
-              .doc(myUser)
-              .collection('posts')
-              .add(propertyData.toJson())
-        }).whenComplete((){
+            price: postClassifiedPriceController.text,
+            sender: myUser,
+            rent: propertyType,
+            sale: propertyType,
+            senderName: myUserName);
+        fs
+            .collection('apartment')
+            .doc(groupApartment)
+            .collection('property')
+            .add(propertyData.toJson())
+            .then((value) => {
+                  fs
+                      .collection('users')
+                      .doc(myUser)
+                      .collection('posts')
+                      .add(propertyData.toJson())
+                })
+            .whenComplete(() {
           ModeSnackBar.show(context, 'posted', SnackBarMode.success);
         }).onError((error, stackTrace) {
           print(error);
           return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
-
         });
       }
-
     }
-
   }
-
 
   updateProfileUserImage(
     String path,
@@ -525,11 +576,10 @@ class ApiService extends ChangeNotifier {
       kNavigator(
           context,
           SelectCity(
-            previosScreen: 'confirm', countryName: country,
+            previosScreen: 'confirm',
+            countryName: country,
           ));
-
-    }).onError((error, stackTrace) {
-    });
+    }).onError((error, stackTrace) {});
   }
 
   updateApartment(context) {
@@ -575,7 +625,6 @@ class ApiService extends ChangeNotifier {
         .snapshots();
   }
 
-
   setCalendarItem(List mode, int year, int month, int day) {
     Map<String, dynamic> data = {};
 
@@ -608,10 +657,10 @@ class ApiService extends ChangeNotifier {
       address: address,
     );
 
-    putBuildingInServer(buildingData,context);
+    putBuildingInServer(buildingData, context);
   }
 
-  putBuildingInServer(BuildingData buildingData,context) {
+  putBuildingInServer(BuildingData buildingData, context) {
     setLoading(true);
     Map<String, dynamic> data = {};
     apartmentId = myUser;
@@ -640,11 +689,18 @@ class ApiService extends ChangeNotifier {
                 title: '',
                 description: '',
                 time: '',
-                image: '',
+                image: [],
                 price: '',
-                sender: '', senderName: '');
-            Message message = Message('','','','',getterUid: '', image: '', senderUid: '', getter: '', sender: '', time: '', pm: ''
-              );
+                sender: '',
+                senderName: '');
+            Message message = Message('', '', '', '',
+                getterUid: '',
+                image: '',
+                senderUid: '',
+                getter: '',
+                sender: '',
+                time: '',
+                pm: '');
             NoticeData noticeData =
                 NoticeData(title: '', description: '', time: '');
             ServiceData serviceData = ServiceData(
@@ -668,7 +724,8 @@ class ApiService extends ChangeNotifier {
                 image: '',
                 price: '',
                 rent: '',
-                sale: '', senderName: '');
+                sale: '',
+                senderName: '');
             BuildingListData buildingListData =
                 BuildingListData(id: myUser, name: name);
             fs
@@ -748,7 +805,6 @@ class ApiService extends ChangeNotifier {
           });
 
           clearInputPet();
-
         } else {
           ModeSnackBar.show(context, ' try again', SnackBarMode.error);
         }
@@ -759,7 +815,6 @@ class ApiService extends ChangeNotifier {
       ModeSnackBar.show(context, ' try again', SnackBarMode.error);
     });
   }
-
 
   sendNoticeService(context) {
     String notice = '';
@@ -789,103 +844,211 @@ class ApiService extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getAllNotice(myApartment) {
-    groupApartment=myApartment;
+    groupApartment = myApartment;
     return fs
         .collection('apartment')
         .doc(myApartment)
         .collection('notices')
-        .orderBy('time',descending: true)
+        .orderBy('time', descending: true)
         .snapshots();
   }
-  sendMessage(context)async {
 
+  sendMessage(context) async {
     print(messageImage);
-    if(imagePath.isNotEmpty){
-      String filename = '${petId}_Vaccine_${DateTime.now()} .${imagePath.substring(imagePath.length-3)}';
+    if (imagePath.isNotEmpty) {
+      String filename =
+          '${petId}_Vaccine_${DateTime.now()} .${imagePath.substring(imagePath.length - 3)}';
       File file = File(imagePath);
-      TaskSnapshot snapshot = await storage.ref().child('$myUser/pets/$petId/vaccine/$filename').putFile(file);
-      snapshot.ref.getDownloadURL().then((value){
-
-        Message message =Message('','','''''','',sender: sender, getter: getter, senderUid: senderUid, getterUid: getterUid, image: value, time: messageTime, pm:messageController.text);
+      TaskSnapshot snapshot = await storage
+          .ref()
+          .child('$myUser/pets/$petId/vaccine/$filename')
+          .putFile(file);
+      snapshot.ref.getDownloadURL().then((value) {
+        Message message = Message('', '', '''''', '',
+            sender: sender,
+            getter: getter,
+            senderUid: senderUid,
+            getterUid: getterUid,
+            image: value,
+            time: messageTime,
+            pm: messageController.text);
         Map<String, dynamic> map = {};
         map['senderUidDoc'] = senderUid;
-        map['getterUidDoc']=getterUid;
+        map['getterUidDoc'] = getterUid;
         map['senderDoc'] = sender;
-        map['getterDoc']=getter;
-        map['time']=DateTime.now();
+        map['getterDoc'] = getter;
+        map['time'] = DateTime.now();
 
-        fs.collection('users').doc(senderUid).collection('message').doc(getterUid).set(map).then((value) => {
-          fs.collection('users').doc(senderUid).collection('message').doc(getterUid).collection('chats').add(message.toJson())
-        }).then((value) =>     fs.collection('users').doc(getterUid).collection('message').doc(senderUid).set(map).then((value) => {
-          fs.collection('users').doc(getterUid).collection('message').doc(senderUid).collection('chats').add(message.toJson())})
-            .whenComplete(() {
-              setMessageSent('sent');
-          messageController.text = '';
-          imagePath='';
-          setMessageImage('');
-          notifyListeners();
-          // ModeSnackBar.show(context, ' sent', SnackBarMode.success);
-          // kNavigatorBack(context);
-        }));
-
-      }).onError((error, stackTrace){
-       print(error);
+        fs
+            .collection('users')
+            .doc(senderUid)
+            .collection('message')
+            .doc(getterUid)
+            .set(map)
+            .then((value) => {
+                  fs
+                      .collection('users')
+                      .doc(senderUid)
+                      .collection('message')
+                      .doc(getterUid)
+                      .collection('chats')
+                      .add(message.toJson())
+                })
+            .then((value) => fs
+                    .collection('users')
+                    .doc(getterUid)
+                    .collection('message')
+                    .doc(senderUid)
+                    .set(map)
+                    .then((value) => {
+                          fs
+                              .collection('users')
+                              .doc(getterUid)
+                              .collection('message')
+                              .doc(senderUid)
+                              .collection('chats')
+                              .add(message.toJson())
+                        })
+                    .whenComplete(() {
+                  setMessageSent('sent');
+                  messageController.text = '';
+                  imagePath = '';
+                  setMessageImage('');
+                  notifyListeners();
+                  // ModeSnackBar.show(context, ' sent', SnackBarMode.success);
+                  // kNavigatorBack(context);
+                }));
+      }).onError((error, stackTrace) {
+        print(error);
       });
-
+    } else {
+      Message message = Message('', '', '''''', '',
+          sender: sender,
+          getter: getter,
+          senderUid: senderUid,
+          getterUid: getterUid,
+          image: messageImage,
+          time: messageTime,
+          pm: messageController.text);
+      Map<String, dynamic> map = {};
+      map['senderUidDoc'] = senderUid;
+      map['getterUidDoc'] = getterUid;
+      map['senderDoc'] = sender;
+      map['getterDoc'] = getter;
+      map['time'] = DateTime.now();
+      fs
+          .collection('users')
+          .doc(senderUid)
+          .collection('message')
+          .doc(getterUid)
+          .set(map)
+          .then((value) => {
+                fs
+                    .collection('users')
+                    .doc(senderUid)
+                    .collection('message')
+                    .doc(getterUid)
+                    .collection('chats')
+                    .add(message.toJson())
+              })
+          .then((value) => fs
+                  .collection('users')
+                  .doc(getterUid)
+                  .collection('message')
+                  .doc(senderUid)
+                  .set(map)
+                  .then((value) => {
+                        fs
+                            .collection('users')
+                            .doc(getterUid)
+                            .collection('message')
+                            .doc(senderUid)
+                            .collection('chats')
+                            .add(message.toJson())
+                      })
+                  .whenComplete(() {
+                messageController.text = '';
+                imagePath = '';
+                setMessageImage('');
+                // ModeSnackBar.show(context, ' sent', SnackBarMode.success);
+                // kNavigatorBack(context);
+              }));
     }
-    else
-      {
-        Message message =Message('','','''''','',sender: sender, getter: getter, senderUid: senderUid, getterUid: getterUid, image: messageImage, time: messageTime, pm:messageController.text);
-        Map<String, dynamic> map = {};
-        map['senderUidDoc'] = senderUid;
-        map['getterUidDoc']=getterUid;
-        map['senderDoc'] = sender;
-        map['getterDoc']=getter;
-        map['time']=DateTime.now();
-        fs.collection('users').doc(senderUid).collection('message').doc(getterUid).set(map).then((value) => {
-          fs.collection('users').doc(senderUid).collection('message').doc(getterUid).collection('chats').add(message.toJson())
-        }).then((value) =>     fs.collection('users').doc(getterUid).collection('message').doc(senderUid).set(map).then((value) => {
-          fs.collection('users').doc(getterUid).collection('message').doc(senderUid).collection('chats').add(message.toJson())})
-            .whenComplete(() {
-          messageController.text = '';
-          imagePath='';
-          setMessageImage('');
-          // ModeSnackBar.show(context, ' sent', SnackBarMode.success);
-          // kNavigatorBack(context);
-        }));
-      }
-
   }
+
   Stream<QuerySnapshot> getAllMessageList() {
-    return fs.collection('users').doc(myUser).collection('message').orderBy('time',descending: true).snapshots();
-
+    return fs
+        .collection('users')
+        .doc(myUser)
+        .collection('message')
+        .orderBy('time', descending: true)
+        .snapshots();
   }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessageDetails(whichDoc) {
-    return fs.collection('users').doc(myUser).collection('message').doc(whichDoc).collection('chats').orderBy('time', descending: true).snapshots();
-
+    return fs
+        .collection('users')
+        .doc(myUser)
+        .collection('message')
+        .doc(whichDoc)
+        .collection('chats')
+        .orderBy('time', descending: true)
+        .snapshots();
   }
-  Stream<QuerySnapshot> getAllClassifiedAds(myApartment,category) {
-    return fs.collection('apartment').doc(myApartment).collection('classifieds').doc(category).collection('ads').orderBy('time').snapshots();
 
+  Stream<QuerySnapshot> getAllClassifiedAds(myApartment, category) {
+    return fs
+        .collection('apartment')
+        .doc(myApartment)
+        .collection('classifieds')
+        .doc(category)
+        .collection('ads')
+        .orderBy('time')
+        .snapshots();
   }
-  Future<DocumentSnapshot<Map<String, dynamic>>> getClassifiedAdsDetails(myApartment,category,documentId) {
-    return fs.collection('apartment').doc(myApartment).collection('classifieds').doc(category).collection('ads').doc(documentId).get();
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getClassifiedAdsDetails(
+      myApartment, category, documentId) {
+    return fs
+        .collection('apartment')
+        .doc(myApartment)
+        .collection('classifieds')
+        .doc(category)
+        .collection('ads')
+        .doc(documentId)
+        .get();
   }
-  Future<DocumentSnapshot<Map<String, dynamic>>> getPropertyAdsDetails(documentId) {
-    return fs.collection('apartment').doc(groupApartment).collection('property').doc(documentId).get();
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getPropertyAdsDetails(
+      documentId) {
+    return fs
+        .collection('apartment')
+        .doc(groupApartment)
+        .collection('property')
+        .doc(documentId)
+        .get();
   }
 
   Stream<QuerySnapshot> getAllServiceAds(category) {
     print(fs.collection('services').doc(category).collection('ads').doc().path);
 
-    return fs.collection('services').doc(category).collection('ads').orderBy('time').snapshots();
+    return fs
+        .collection('services')
+        .doc(category)
+        .collection('ads')
+        .orderBy('time')
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getAllPropertyItems(myApartment) {
-    return fs.collection('apartment').doc(myApartment).collection('property').orderBy('time',descending: true).snapshots();
+    return fs
+        .collection('apartment')
+        .doc(myApartment)
+        .collection('property')
+        .orderBy('time', descending: true)
+        .snapshots();
   }
+
   Stream<QuerySnapshot> getAllClassifieds(myApartment) {
     return fs
         .collection('apartment')
@@ -942,7 +1105,6 @@ class ApiService extends ChangeNotifier {
         if (auth.currentUser != null) {
           user.id = auth.currentUser!.uid;
           signUp(user);
-
         } else {
           apiStatus.error();
           setLoading(false);

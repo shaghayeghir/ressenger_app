@@ -11,7 +11,7 @@ adData _$adDataFromJson(Map<String, dynamic> json) => adData(
   title: json['title'] as String,
   description: json['description'] as String,
   time: json['time'] as String,
-  image: json['image'] as String,
+  image: json['image'] as List,
   price: json['price'] as String,
   sender: json['sender'] as String,
   senderName: json['senderName'] as String?,

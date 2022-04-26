@@ -8,7 +8,7 @@ class adData {
   String title = '';
   String description = '';
   String time = '';
-  String image = '';
+  List image = [];
   String price = '';
   String sender = '';
   String? senderName='';
