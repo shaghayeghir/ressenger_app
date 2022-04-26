@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/Model/ad.dart';
@@ -56,6 +57,7 @@ class ApiService extends ChangeNotifier {
 
   String services = '';
   String imagePath = '';
+  List<XFile> listimagepath = [];
   String propertyDocId='';
 
   String othersName = '';
@@ -192,6 +194,10 @@ class ApiService extends ChangeNotifier {
     imagePath = val;
     notifyListeners();
   }
+  setListImagePath(List<XFile> list){
+    listimagepath = list;
+    notifyListeners();
+  }
 
   setPropertyDocId(String val) {
     propertyDocId = val;
@@ -275,6 +281,9 @@ class ApiService extends ChangeNotifier {
 
   Stream<QuerySnapshot> getAllMyPosts() {
     return fs.collection('users').doc(myUser).collection('posts').snapshots();
+  }
+  Future<DocumentSnapshot<Map<String, dynamic>>> getalltest(){
+    return fs.collection('test').doc(myUser).get();
   }
 
   Stream<QuerySnapshot> getCountry() {

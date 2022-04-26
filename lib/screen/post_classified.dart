@@ -16,13 +16,12 @@ import '../widgets/post_form.dart';
 import 'dart:io';
 
 class PostClassified extends StatelessWidget implements ApiStatusLogin {
-
   late BuildContext context;
+  List<XFile>? multiPickedImage;
 
   @override
   Widget build(BuildContext context) {
     this.context = context;
-    List<XFile> multiPickedImage=[];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -127,12 +126,37 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                       ),
                       InkWell(
                           onTap: () {
-                            _pickImageFromGallery(
+                            _pickImageFromGallery2(
                               context,
                             );
                           },
-                          child: (value.imagePath.isNotEmpty)
-                              ? Image.file(File(value.imagePath))
+                          child: (value.listimagepath.isNotEmpty)
+                              ? Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height: 100,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: multiPickedImage!.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Row(
+                                          children: [
+                                            Container(
+                                              child: Image.file(
+
+                                                  File(
+                                                  multiPickedImage![index]
+                                                      .path)),
+
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        );
+                                      }),
+                                )
                               : Icon(
                                   Icons.add_a_photo_outlined,
                                   color: Colors.grey.shade300,
@@ -169,7 +193,7 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                     //     value.postClassifiedDescriptionController.text.isEmpty &&
                     //      value.classifiedType.isNotEmpty
                     // ){
-                      value.submitClassifiedPost(context);
+                    value.submitClassifiedPost(context);
                     // }
                     // else{
                     //   print(value.postClassifiedTitleController.text);
@@ -177,7 +201,6 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                     //   print( value.classifiedType);
                     //   ModeSnackBar.show(context, 'fill all required part', SnackBarMode.error);
                     // }
-
                     // kNavigator(context, Confirm());
                   }, 30.0),
                 ],
@@ -187,25 +210,26 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
         })));
   }
 
-  // Future<List<XFile>> _pickImageFromGallery(BuildContext context) async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   final List<XFile>? images = await _picker.pickMultiImage();
-  //   if (images != null && images.isNotEmpty) {
-  //
-  //     return images;
-  //     //context.read<ApiService>().setImagePath(pickedFile.path);
-  //   }
-  //    print(images?.length);
-  //   return [];
-  // }
+  Future<List<XFile>> _pickImageFromGallery2(BuildContext context) async {
+    final ImagePicker _picker = ImagePicker();
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != null && images.isNotEmpty) {
+      multiPickedImage = images;
+      print(multiPickedImage!.first.path);
+      context.read<ApiService>().setListImagePath(images);
+      return images;
+    }
+    print(images?.length);
+    return [];
+  }
+
   Future<void> _pickImageFromGallery(BuildContext context) async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       context.read<ApiService>().setImagePath(pickedFile.path);
     }
   }
-
 
   @override
   void accountAvailable() {}
