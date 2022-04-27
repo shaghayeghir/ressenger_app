@@ -219,9 +219,9 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                                     Container(
                                                                         width: MediaQuery.of(context).size.width * 0.19,
                                                                         height: MediaQuery.of(context).size.height * 0.14,
-                                                                        child:(AdData.image.length>1)
+                                                                        child:(AdData.image[0].length>1)
 
-                                                                            ?Image.network('AdData.image')
+                                                                            ?Image.network(AdData.image[0])
                                                                             :Image.asset(
                                                                           'assets/images/wicon3.png',
                                                                           fit: BoxFit.fill,
@@ -343,7 +343,7 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                                                 height: MediaQuery.of(context).size.height * 0.14,
                                                                 child:(AdData.image.length>1)
 
-                                                                    ?Image.network('AdData.image')
+                                                                    ?Image.network(AdData.image[0])
                                                                     :Image.asset(
                                                                   'assets/images/wicon3.png',
                                                                   fit: BoxFit.fill,

@@ -190,7 +190,6 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                     //      value.classifiedType.isNotEmpty
                     // ){
                     value.submitClassifiedPost(context);
-                    print(value.listimagepath[0]);
                     // value.submit(context);
                     // }
                     // else{

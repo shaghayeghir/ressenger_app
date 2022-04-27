@@ -188,6 +188,8 @@ class PostProperty extends StatelessWidget implements ApiStatusLogin {
             })));
   }
 
+
+
   Future<void> _pickImageFromGallery(BuildContext context) async {
     final pickedFile =
     await ImagePicker().pickImage(source: ImageSource.gallery);

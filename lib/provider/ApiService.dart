@@ -58,6 +58,7 @@ class ApiService extends ChangeNotifier {
   String services = '';
   String imagePath = '';
   List listimagepath = [];
+  List image = [];
   String propertyDocId = '';
 
   String othersName = '';
@@ -352,8 +353,8 @@ class ApiService extends ChangeNotifier {
     });
   }
 
-  submit(context) async {
-    for (int i = 0; i <= listimagepath.length; i++) {
+   submit(context) async {
+    for (int i = 0; i < listimagepath.length; i++) {
       String filename =
           '${myUser}_classified_${DateTime.now()} .${listimagepath[i].substring(listimagepath[i].length - 3)}';
       File file = File(listimagepath[i]);
@@ -361,44 +362,35 @@ class ApiService extends ChangeNotifier {
           .ref()
           .child('$myUser/classifieds/$filename')
           .putFile(file);
-      snapshot.ref.getDownloadURL().then((value) {
+      await snapshot.ref.getDownloadURL().then((value){
+        image.add(value);
         print(value);
+      }).onError((error, stackTrace) {
+        ModeSnackBar.show(context, 'try again', SnackBarMode.error);
+        print('-------------------------------------');
+        print(error);
       });
     }
+
   }
 
   submitClassifiedPost(context) async {
     setLoading(true);
-
+    List list = [];
     String title = '';
     {
       if (listimagepath.isNotEmpty) {
-        List list = [];
-        for (int i = 0; i < listimagepath.length; i++) {
-          String filename =
-              '${myUser}_classified_${DateTime.now()} .${listimagepath[i].substring(listimagepath[i].length - 3)}';
-          File file = File(listimagepath[i]);
-          TaskSnapshot snapshot = await storage
-              .ref()
-              .child('$myUser/classifieds/$filename')
-              .putFile(file);
-          snapshot.ref.getDownloadURL().then((value) {
-            list.add(value);
-          }).onError((error, stackTrace) {
-            ModeSnackBar.show(context, 'try again', SnackBarMode.error);
-            print(error);
-          });
-        }
-
+        await submit(context);
         adData AdData = adData(
             category: classifiedType,
             title: postClassifiedTitleController.text,
             description: postClassifiedDescriptionController.text,
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
-            image: list,
+            image: image,
             price: postClassifiedPriceController.text,
             sender: myUser,
             senderName: myUserName);
+        print(AdData.image);
         fs
             .collection('apartment')
             .doc(groupApartment)

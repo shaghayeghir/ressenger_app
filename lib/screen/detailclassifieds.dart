@@ -176,6 +176,7 @@ class DetailClassifieds extends StatelessWidget implements ApiStatusLogin {
                             as Map<
                                 String,
                                 dynamic>;
+                            print(data);
                             return SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,7 +273,7 @@ class DetailClassifieds extends StatelessWidget implements ApiStatusLogin {
                                         SizedBox(height: 30,),
                                        Container(
                                          child:( data['image'].toString().length>2)
-                                    ?Center(child: Image.network(data['image']))
+                                    ?Center(child: Image.network(data['image'][0]))
                                            :Center(
                                              child: Container(
                                              width: MediaQuery.of(context).size.width*0.8,
