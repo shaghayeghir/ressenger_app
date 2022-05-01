@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 
 import '../constants.dart';
 import '../widgets/my_bottom_navigation_bar.dart';
@@ -16,10 +17,10 @@ class ServicesDetail extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 10, left: 10, top: 10),
+                  margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
                   child: Row(
                     children: [
-                      FaIcon(
+                      const FaIcon(
                         FontAwesomeIcons.briefcase,
                         color: kLightPink,
                       ),
@@ -33,13 +34,13 @@ class ServicesDetail extends StatelessWidget {
                             fontSize: 25,
                             fontWeight: FontWeight.bold),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         decoration: BoxDecoration(
                           color: kDarkBlue,
                           borderRadius: BorderRadius.circular(7),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                         child: const Center(
                             child: Text(
                               'Post',
@@ -49,34 +50,39 @@ class ServicesDetail extends StatelessWidget {
                                   fontSize: 15),
                             )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
-                      Image(
-                        image: AssetImage('assets/images/wicon.png'),
-                        width: 50,
-                        height: 50,
-                        color: kLightPink,
+                      InkWell(
+                        onTap: (){
+                          kNavigator(context, ProFileScreen());
+                        },
+                        child: const Image(
+                          image: const AssetImage('assets/images/wicon.png'),
+                          width: 50,
+                          height: 50,
+                          color: kLightPink,
+                        ),
                       )
                     ],
                   ),
                 ),
-                Divider(color: Colors.grey, thickness: 2),
-                SizedBox(
+                const Divider(color: Colors.grey, thickness: 2),
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: Image(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: const Image(
                     image: AssetImage('assets/images/banner.png'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: <Widget>[
                       Menu('Automotive', FontAwesomeIcons.tv,true),
                       Menu('Child Care', FontAwesomeIcons.couch,true),
@@ -114,11 +120,11 @@ Widget Menu(String text, IconData icon, bool last) {
                   color: kLightPink,
                 )),
             // Icon(FaIcon(FontAwesomeIcons.tv),color: kLightPink,),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Text(text,
-                style: TextStyle(
+                style: const TextStyle(
                     color: kLightPink,
                     fontSize: 18,
                     fontWeight: FontWeight.bold)),
@@ -127,7 +133,7 @@ Widget Menu(String text, IconData icon, bool last) {
       ),
       Visibility(
           visible: last,
-          child: Divider(
+          child: const Divider(
             color: kLightPink,
             thickness: 2,
             height: 0,

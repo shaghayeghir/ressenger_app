@@ -7,6 +7,7 @@ import 'package:ressengaer_app/Authentication/login.dart';
 import 'package:ressengaer_app/Authentication/sign_up.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/post_property.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 import 'package:ressengaer_app/screen/property_chat_dialog.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
@@ -225,11 +226,16 @@ class DetailProperty extends StatelessWidget implements ApiStatusLogin {
                                         const SizedBox(
                                           width: 10,
                                         ),
-                                        const Image(
-                                          image: AssetImage('assets/images/wicon.png'),
-                                          width: 50,
-                                          height: 50,
-                                          color: kLightPink,
+                                        InkWell(
+                                          onTap: (){
+                                            kNavigator(context, ProFileScreen());
+                                          },
+                                          child: const Image(
+                                            image: AssetImage('assets/images/wicon.png'),
+                                            width: 50,
+                                            height: 50,
+                                            color: kLightPink,
+                                          ),
                                         )
                                       ],
                                     ),

@@ -7,6 +7,7 @@ import 'package:ressengaer_app/Authentication/login.dart';
 import 'package:ressengaer_app/Authentication/sign_up.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/country.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 import 'package:ressengaer_app/screen/searchapartment.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
@@ -94,11 +95,16 @@ class ServicesItem extends StatelessWidget implements ApiStatusLogin {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.4,
                           ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 14),
-                            width: 50,
-                            height: 50,
-                            child: Image.asset('assets/images/wicon3.png'),
+                          InkWell(
+                            onTap: (){
+                              kNavigator(context, ProFileScreen());
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 14),
+                              width: 50,
+                              height: 50,
+                              child: Image.asset('assets/images/wicon3.png'),
+                            ),
                           ),
                         ],
                       )

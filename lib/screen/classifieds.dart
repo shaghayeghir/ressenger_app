@@ -12,6 +12,7 @@ import 'package:ressengaer_app/Model/notice_model.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/post_classified.dart';
 import 'package:ressengaer_app/screen/profile.dart';
+import 'package:ressengaer_app/screen/test.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
 
@@ -124,7 +125,7 @@ class ClassiFieds extends StatelessWidget implements ApiStatusLogin {
                                               width: 10,
                                             ),
                                             const Image(
-                                              image: const AssetImage('assets/images/wicon.png'),
+                                              image: AssetImage('assets/images/wicon.png'),
                                               width: 50,
                                               height: 50,
                                               color: kLightPink,

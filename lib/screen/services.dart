@@ -85,30 +85,35 @@ class Services extends StatelessWidget implements ApiStatusLogin {
                                       Container(
                                         margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
                                         child: Row(
-                                          children: const [
-                                            Icon(
+                                          children: [
+                                            const Icon(
                                               Icons.push_pin_rounded,
                                               color: kLightPink,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Services',
                                               style: TextStyle(
                                                   color: kLightPink,
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            Spacer(),
-                                            SizedBox(
+                                            const Spacer(),
+                                            const SizedBox(
                                               width: 10,
                                             ),
-                                            Image(
-                                              image: AssetImage('assets/images/wicon.png'),
-                                              width: 50,
-                                              height: 50,
-                                              color: kLightPink,
+                                            InkWell(
+                                              onTap: (){
+                                                kNavigator(context, ProFileScreen());
+                                              },
+                                              child: const Image(
+                                                image: AssetImage('assets/images/wicon.png'),
+                                                width: 50,
+                                                height: 50,
+                                                color: kLightPink,
+                                              ),
                                             )
                                           ],
                                         ),

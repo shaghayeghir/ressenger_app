@@ -6,6 +6,7 @@ import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/Authentication/login.dart';
 import 'package:ressengaer_app/Authentication/sign_up.dart';
 import 'package:ressengaer_app/constants.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
 
@@ -49,11 +50,16 @@ class PostClassified extends StatelessWidget implements ApiStatusLogin {
                         fontFamily: 'Mont'),
                   ),
                   Spacer(),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 14),
-                    width: 50,
-                    height: 50,
-                    child: Image.asset('assets/images/wicon3.png'),
+                  InkWell(
+                    onTap: (){
+                      kNavigator(context, ProFileScreen());
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 14),
+                      width: 50,
+                      height: 50,
+                      child: Image.asset('assets/images/wicon3.png'),
+                    ),
                   ),
                 ],
               ),

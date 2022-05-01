@@ -9,6 +9,7 @@ import 'package:ressengaer_app/Authentication/confirm.dart';
 import 'package:ressengaer_app/Model/ad.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/post_classified.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 import '../Utils/custom_snackbar.dart';
 import '../provider/ApiService.dart';
 import '../widgets/my_bottom_navigation_bar.dart';
@@ -89,11 +90,16 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                                     fontFamily: 'Mont'
                                 ),))),
                           ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 14),
-                            width: 50,
-                            height: 50,
-                            child: Image.asset('assets/images/wicon3.png'),
+                          InkWell(
+                            onTap: (){
+                              kNavigator(context, ProFileScreen());
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 14),
+                              width: 50,
+                              height: 50,
+                              child: Image.asset('assets/images/wicon3.png'),
+                            ),
                           ),
                         ],
                       )
