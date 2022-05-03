@@ -225,7 +225,7 @@ class Posts extends StatelessWidget {
                                                                                               height:
                                                                                               MediaQuery.of(context).size.height * 0.14,
                                                                                               child: (propertydata.image.length > 1)
-                                                                                                  ? Image.network(propertydata.image)
+                                                                                                  ? Image.network(propertydata.image[0])
                                                                                                   : Image.asset(
                                                                                                 'assets/images/wicon3.png',
                                                                                                 fit: BoxFit.fill,

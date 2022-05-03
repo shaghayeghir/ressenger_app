@@ -37,11 +37,8 @@ class Notices extends StatelessWidget implements ApiStatusLogin {
                     actions: [
                       Row(
                         children: [
-                          const Icon(
-                            Icons.notifications,
-                            color: kMyPink,
-                            size: 40,
-                          ),
+                          const Image(image: AssetImage('assets/images/notification.png'),color: kLightPink,width: 35),
+                          SizedBox(width: 10,),
                           const Text(
                             'Notices',
                             style: TextStyle(
@@ -51,7 +48,7 @@ class Notices extends StatelessWidget implements ApiStatusLogin {
                                 fontFamily: 'Mont'),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.47,
                           ),
                           InkWell(
                             onTap: () {

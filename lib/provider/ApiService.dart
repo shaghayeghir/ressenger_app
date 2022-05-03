@@ -58,7 +58,9 @@ class ApiService extends ChangeNotifier {
   String services = '';
   String imagePath = '';
   List listimagepath = [];
+  List listimagepathproperty = [];
   List image = [];
+  List imageproperty = [];
   String propertyDocId = '';
 
   String othersName = '';
@@ -213,6 +215,10 @@ class ApiService extends ChangeNotifier {
     listimagepath = list;
     notifyListeners();
   }
+  setListImagePathproperty(List list) {
+    listimagepathproperty = list;
+    notifyListeners();
+  }
 
   setPropertyDocId(String val) {
     propertyDocId = val;
@@ -353,7 +359,7 @@ class ApiService extends ChangeNotifier {
     });
   }
 
-   submit(context) async {
+   submitclassifieds(context) async {
     for (int i = 0; i < listimagepath.length; i++) {
       String filename =
           '${myUser}_classified_${DateTime.now()} .${listimagepath[i].substring(listimagepath[i].length - 3)}';
@@ -380,7 +386,7 @@ class ApiService extends ChangeNotifier {
     String title = '';
     {
       if (listimagepath.isNotEmpty) {
-        await submit(context);
+        await submitclassifieds(context);
         adData AdData = adData(
             category: classifiedType,
             title: postClassifiedTitleController.text,
@@ -407,6 +413,7 @@ class ApiService extends ChangeNotifier {
                 })
             .whenComplete(() {
           ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+          kNavigatorBack(context);
         }).onError((error, stackTrace) {
           print(error);
           return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
@@ -437,6 +444,7 @@ class ApiService extends ChangeNotifier {
                 })
             .whenComplete(() {
           ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+          kNavigatorBack(context);
         }).onError((error, stackTrace) {
           print(error);
           return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
@@ -445,55 +453,69 @@ class ApiService extends ChangeNotifier {
     }
   }
 
+  submitproperty(context)async{
+    for(int i = 0 ; i< listimagepathproperty.length;i++){
+      String filename =
+          '${myUser}_property_${DateTime.now()} .${listimagepathproperty[i].substring(listimagepathproperty[i].length - 3)}';
+      File file = File(listimagepathproperty[i]);
+      TaskSnapshot snapshot = await storage
+          .ref()
+          .child('$myUser/classifieds/$filename')
+          .putFile(file);
+      await snapshot.ref.getDownloadURL().then((value){
+        imageproperty.add(value);
+        print(value);
+      }).onError((error, stackTrace) {
+        ModeSnackBar.show(context, 'try again', SnackBarMode.error);
+        print(error);
+      });
+    }
+  }
+
   submitPropertyPost(context) async {
     setLoading(true);
 
     String title = '';
     {
-      if (imagePath.isNotEmpty) {
-        String filename =
-            '${myUser}_property_${DateTime.now()} .${imagePath.substring(imagePath.length - 3)}';
-        File file = File(imagePath);
-        TaskSnapshot snapshot = await storage
-            .ref()
-            .child('$myUser/classifieds/$filename')
-            .putFile(file);
-        snapshot.ref.getDownloadURL().then((value) {
-          PropertyData propertyData = PropertyData(
-              title: postPropertyTitleController.text,
-              description: postPropertyDescriptionController.text,
-              time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
-              image: value,
-              price: postPropertyPriceController.text,
-              sender: myUser,
-              sale: propertyType,
-              rent: propertyType,
-              senderName: myUserName);
+      if (listimagepathproperty.isNotEmpty) {
+        await submitproperty(context);
+        PropertyData propertyData = PropertyData(
+            title: postPropertyTitleController.text,
+            description: postPropertyDescriptionController.text,
+            time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
+            image: imageproperty,
+            price: postPropertyPriceController.text,
+            sender: myUser,
+            sale: propertyType,
+            rent: propertyType,
+            senderName: myUserName);
+        print(propertyData.image);
+        fs
+            .collection('apartment')
+            .doc(groupApartment)
+            .collection('property')
+            .add(propertyData.toJson())
+            .then((value) => {
           fs
-              .collection('apartment')
-              .doc(groupApartment)
-              .collection('property')
+              .collection('users')
+              .doc(myUser)
+              .collection('posts')
               .add(propertyData.toJson())
-              .then((value) => {
-                    fs
-                        .collection('users')
-                        .doc(myUser)
-                        .collection('posts')
-                        .add(propertyData.toJson())
-                  })
-              .whenComplete(() {
-            ModeSnackBar.show(context, 'posted', SnackBarMode.success);
-          });
+        })
+            .whenComplete(() {
+          ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+          kNavigatorBack(context);
         }).onError((error, stackTrace) {
-          ModeSnackBar.show(context, 'try again', SnackBarMode.error);
           print(error);
+          return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
         });
+
       } else {
         PropertyData propertyData = PropertyData(
             title: postClassifiedTitleController.text,
             description: postClassifiedDescriptionController.text,
             time: (DateFormat.yMMMMEEEEd().add_Hm().format(DateTime.now())),
-            image: '',
+            image: [],
             price: postClassifiedPriceController.text,
             sender: myUser,
             rent: propertyType,
@@ -513,6 +535,7 @@ class ApiService extends ChangeNotifier {
                 })
             .whenComplete(() {
           ModeSnackBar.show(context, 'posted', SnackBarMode.success);
+          kNavigatorBack(context);
         }).onError((error, stackTrace) {
           print(error);
           return ModeSnackBar.show(context, 'try again', SnackBarMode.error);
@@ -713,7 +736,7 @@ class ApiService extends ChangeNotifier {
                 title: '',
                 description: '',
                 time: '',
-                image: '',
+                image: [],
                 price: '',
                 rent: '',
                 sale: '',

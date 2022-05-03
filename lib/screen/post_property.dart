@@ -21,6 +21,8 @@ class PostProperty extends StatelessWidget implements ApiStatusLogin {
 
   PostProperty() ;
   late BuildContext context;
+  List multiPickedImage = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +136,7 @@ class PostProperty extends StatelessWidget implements ApiStatusLogin {
                               ),
                               InkWell(
                                   onTap: () {
-                                    _pickImageFromGallery(
+                                    _pickImageFromGallery2(
                                       context,
                                     );
                                   },
@@ -195,6 +197,21 @@ class PostProperty extends StatelessWidget implements ApiStatusLogin {
   }
 
 
+  Future<List<XFile>> _pickImageFromGallery2(BuildContext context) async {
+    multiPickedImage = [];
+    final ImagePicker _picker = ImagePicker();
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != null && images.isNotEmpty) {
+      for (int i = 0; i < images.length; i++) {
+        multiPickedImage.add(images[i].path);
+      }
+      print(multiPickedImage);
+      context.read<ApiService>().setListImagePathproperty(multiPickedImage);
+      return images;
+    }
+    print(images?.length);
+    return [];
+  }
 
   Future<void> _pickImageFromGallery(BuildContext context) async {
     final pickedFile =

@@ -59,10 +59,7 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
                                     children: [
                                       Row(
                                         children: const [
-                                          Icon(
-                                            Icons.message,
-                                            color: kLightPink,
-                                          ),
+                                          Image(image: AssetImage('assets/images/chat.png'),color: kLightPink,width: 35,),
                                           SizedBox(
                                             width: 10,
                                           ),

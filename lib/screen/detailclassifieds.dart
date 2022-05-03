@@ -147,6 +147,7 @@ class DetailClassifieds extends StatelessWidget implements ApiStatusLogin {
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data =
                     snapshot.data!.data() as Map<String, dynamic>;
+                List list = data['image'];
                 print(data);
                 return SingleChildScrollView(
                   child: Column(
@@ -274,7 +275,7 @@ class DetailClassifieds extends StatelessWidget implements ApiStatusLogin {
                                                     0.3,
                                                 enlargeCenterPage: true,
                                               ),
-                                              itemCount: 2,
+                                              itemCount: list.length,
                                               itemBuilder: (context, itemIndex,
                                                   realIndex) {
                                                 return InkWell(

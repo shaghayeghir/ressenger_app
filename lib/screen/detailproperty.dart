@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class DetailProperty extends StatelessWidget implements ApiStatusLogin {
 
   DetailProperty({required this.documentId});
   late BuildContext context;
+  CarouselController carouselController = CarouselController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +180,8 @@ class DetailProperty extends StatelessWidget implements ApiStatusLogin {
                             as Map<
                                 String,
                                 dynamic>;
+                            List list = data['image'];
+                            print(list);
                             return SingleChildScrollView(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +283,107 @@ class DetailProperty extends StatelessWidget implements ApiStatusLogin {
                                         SizedBox(height: 30,),
                                         Container(
                                           child:( data['image'].toString().length>2)
-                                              ?Center(child: Image.network(data['image']))
+                                              ?Center(
+                                            child: Container(
+                                              height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.3,
+                                              width:
+                                              MediaQuery.of(context).size.width,
+                                              child: Stack(
+                                                children: [
+                                                  CarouselSlider.builder(
+                                                    carouselController: carouselController,
+                                                    options: CarouselOptions(
+                                                      height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                          0.3,
+                                                      enlargeCenterPage: true,
+                                                    ),
+                                                    itemCount: list.length,
+                                                    itemBuilder: (context, itemIndex,
+                                                        realIndex) {
+                                                      return InkWell(
+                                                        onTap: () {
+                                                          print(realIndex);
+                                                        },
+                                                        child: Container(
+                                                          child: Image(
+                                                              fit: BoxFit.cover,
+                                                              image: NetworkImage(
+                                                                  data['image']
+                                                                  [itemIndex])),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: (){
+                                                            carouselController.previousPage();
+                                                          },
+                                                          child: Container(
+                                                            color: Colors.black
+                                                                .withOpacity(0.5),
+                                                            width: 70,
+                                                            height:
+                                                            MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                                0.3,
+                                                            child: Center(
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_back_ios_outlined,
+                                                                color: Colors.white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: (){
+                                                            carouselController.nextPage();
+                                                          },
+                                                          child: Container(
+                                                            color: Colors.black
+                                                                .withOpacity(0.5),
+                                                            width: 70,
+                                                            height:
+                                                            MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                                0.3,
+                                                            child: Center(
+                                                              child: Icon(
+                                                                Icons.arrow_forward_ios,
+                                                                color: Colors.white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                      ]),
+                                                  Positioned(
+                                                    bottom: 5,
+                                                    left: 10,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                      },
+                                                      child: Icon(
+                                                        Icons.zoom_in,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                               :Center(
                                             child: Container(
                                                 width: MediaQuery.of(context).size.width*0.8,

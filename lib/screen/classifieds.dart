@@ -86,10 +86,7 @@ class ClassiFieds extends StatelessWidget implements ApiStatusLogin {
                                         margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
                                         child: Row(
                                           children: [
-                                            const Icon(
-                                              Icons.push_pin_rounded,
-                                              color: kLightPink,
-                                            ),
+                                            Image(image: AssetImage('assets/images/newspaper.png'),color: kLightPink,width: 35,),
                                             const SizedBox(
                                               width: 10,
                                             ),

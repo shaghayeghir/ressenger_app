@@ -41,11 +41,7 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                   actions: [
                     Row(
                       children: [
-                        const Icon(
-                          FontAwesomeIcons.bullhorn,
-                          color: kMyPink,
-                          size: 30,
-                        ),
+                        Image(image: AssetImage('assets/images/house.png'),color: kLightPink,width: 35,),
                         SizedBox(
                           width: 15,
                         ),
@@ -230,8 +226,8 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                                                                                         0.19,
                                                                                     height:
                                                                                         MediaQuery.of(context).size.height * 0.14,
-                                                                                    child: (propertydata.image.length > 1)
-                                                                                        ? Image.network(propertydata.image)
+                                                                                    child: (propertydata.image[0].length > 1)
+                                                                                        ? Image.network(propertydata.image[0])
                                                                                         : Image.asset(
                                                                                             'assets/images/wicon3.png',
                                                                                             fit: BoxFit.fill,
@@ -349,8 +345,8 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                                                                                         0.19,
                                                                                     height:
                                                                                         MediaQuery.of(context).size.height * 0.14,
-                                                                                    child: (propertydata.image.length > 1)
-                                                                                        ? Image.network(propertydata.image)
+                                                                                    child: (propertydata.image[0].length > 1)
+                                                                                        ? Image.network(propertydata.image[0])
                                                                                         : Image.asset(
                                                                                             'assets/images/wicon3.png',
                                                                                             fit: BoxFit.fill,

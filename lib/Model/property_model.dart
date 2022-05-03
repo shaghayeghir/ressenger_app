@@ -8,7 +8,7 @@ class PropertyData {
   String title = '';
   String description = '';
   String time = '';
-  String image = '';
+  List image = [];
   String price = '';
   String sale = '';
   String rent = '';

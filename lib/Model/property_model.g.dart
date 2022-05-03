@@ -11,7 +11,7 @@ PropertyData _$PropertyDataFromJson(Map<String, dynamic> json) => PropertyData(
   title: json['title'] as String,
   description: json['description'] as String,
   time: json['time'] as String,
-  image: json['image'] as String,
+  image: json['image'] as List,
   price: json['price'] as String,
   sale: json['sale'] as String,
   rent: json['rent'] as String,

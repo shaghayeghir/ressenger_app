@@ -24,20 +24,17 @@ mYBottomNavigationBar(context) {
 
       //curveSize: 100,
       backgroundColor: Colors.white,
-      items: const [
-        TabItem(icon: Icons.notifications, title: ''),
+      items: [
+        TabItem(icon: Image(image: AssetImage('assets/images/notification.png'),color: kLightPink,), title: ''),
         TabItem(
-          icon: FontAwesomeIcons.thumbtack,
+          icon: Image(image: AssetImage('assets/images/newspaper.png'),color: kLightPink,),
           title: '',
         ),
         TabItem(
-            icon: FaIcon(
-              FontAwesomeIcons.briefcase,
-              color: kLightPink,
-            ),
+            icon: Image(image: AssetImage('assets/images/suitcase.png'),color: kLightPink,),
             title: ''),
-        TabItem(icon: FontAwesomeIcons.bullhorn, title: ''),
-        TabItem(icon: Icons.message, title: ''),
+        TabItem(icon: Image(image: AssetImage('assets/images/house.png'),color: kLightPink,), title: ''),
+        TabItem(icon: Image(image: AssetImage('assets/images/chat.png'),color: kLightPink,), title: ''),
       ],
       //initialActiveIndex: 0,
       //optional, default as 0
