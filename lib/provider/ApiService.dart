@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,8 @@ import '../constants.dart';
 import '../main.dart';
 import '../screen/city.dart';
 import '../screen/searchapartment.dart';
+import 'package:http/http.dart' as http;
+
 
 enum LoginStatus { error, login, isLogin, waiting, passwordWrong, emailWrong }
 enum UploadData { error, upload, waiting }
@@ -36,6 +40,8 @@ class ApiService extends ChangeNotifier {
   FirebaseFirestore fs = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
 
   // [Data] --------------------------------------------//
   String country = '';
@@ -62,6 +68,7 @@ class ApiService extends ChangeNotifier {
   List image = [];
   List imageproperty = [];
   String propertyDocId = '';
+  String Token = '';
 
   String othersName = '';
 
@@ -379,6 +386,75 @@ class ApiService extends ChangeNotifier {
     }
 
   }
+
+  checktoken()async{
+    var box = await Hive.openBox('Token');
+    if(box.isEmpty){
+      _firebaseMessaging.getToken(
+          vapidKey: 'BDg8n01p3KOPp2cahWXFb4rfmJv4w3eu3UnWuUHomuvxmWp3WGAyYmMOyAgEUXsVVmwrRoSf5fVEnur3S470igs'
+      ).then((val) async {
+        print('Token: '+val!);
+        Map<String,dynamic> data = {
+          'token' : val
+        };
+        await fs.collection('Token').doc(myUser).set(data).whenComplete(() async{
+          await box.put('token', val);
+          Token = val;
+        });
+      });
+    }
+    else{
+      String token = await box.get('token');
+      Token = token;
+    }
+  }
+
+
+  Future<void> sendNotificationMessageToPeerUser(text , username,image,getter) async {
+    DocumentSnapshot documentSnapshot = await fs
+        .collection('Token')
+        .doc(getter)
+        .get();
+    String token = documentSnapshot.get('token');
+    print(token);
+    print(image);
+    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    try{
+      await http.post(
+        // 'https://fcm.googleapis.com/fcm/send',
+        // 'https://api.rnfirebase.io/messaging/send',
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'key=AAAAgAyYEKA:APA91bHrw3zl9skkX3L07QeCELhoGh0_yvUIXN7K3txtJE3mGdoOf1EV6U0AwP3OOfxR5AnNtZ0vo-g4tixlVavRmquGb65KDWdvTn3uh3vbwxU1rSu8QN6D_MO5fSb_KvsDzOJxOAe6 ',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'body': text,
+              'title': username,
+              "sound" : "default",
+              "image" : 'https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80'
+            },
+            // 'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done',
+              'chatroomid': 1,
+              'userImage':'https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80',
+              'userName':username,
+              'message': text,
+            },
+            'to': token,
+          },
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   submitClassifiedPost(context) async {
     setLoading(true);
@@ -887,6 +963,7 @@ class ApiService extends ChangeNotifier {
             image: value,
             time: messageTime,
             pm: messageController.text);
+        sendNotificationMessageToPeerUser('(Photo)', sender, value, getterUid);
         Map<String, dynamic> map = {};
         map['senderUidDoc'] = senderUid;
         map['getterUidDoc'] = getterUid;
@@ -937,6 +1014,7 @@ class ApiService extends ChangeNotifier {
         print(error);
       });
     } else {
+      sendNotificationMessageToPeerUser(messageController.text, sender, '', getterUid);
       Message message = Message('', '', '''''', '',
           sender: sender,
           getter: getter,
@@ -982,7 +1060,7 @@ class ApiService extends ChangeNotifier {
                             .add(message.toJson())
                       })
                   .whenComplete(() {
-                messageController.text = '';
+        messageController.text = '';
                 imagePath = '';
                 setMessageImage('');
                 // ModeSnackBar.show(context, ' sent', SnackBarMode.success);

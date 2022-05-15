@@ -23,6 +23,7 @@ class Notices extends StatelessWidget implements ApiStatusLogin {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ApiService>().checktoken();
     this.context = context;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     FirebaseAuth auth = FirebaseAuth.instance;
