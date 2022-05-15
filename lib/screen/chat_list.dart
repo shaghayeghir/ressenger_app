@@ -8,6 +8,7 @@ import 'package:ressengaer_app/Authentication/sign_up.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/chat_details.dart';
 import 'package:ressengaer_app/screen/chat_screen.dart';
+import 'package:ressengaer_app/screen/profile.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
 
@@ -54,33 +55,38 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
                                 alignment: Alignment.center,
 
                                 child: Scaffold(
-                                  bottomNavigationBar: mYBottomNavigationBar(context),
+                                 // bottomNavigationBar: mYBottomNavigationBar(context),
                                   body: Column(
                                     children: [
                                       Row(
-                                        children: const [
-                                          Image(image: AssetImage('assets/images/chat.png'),color: kLightPink,width: 35,),
-                                          SizedBox(
+                                        children:  [
+                                          const Image(image: const AssetImage('assets/images/chat.png'),color: kLightPink,width: 35,),
+                                          const SizedBox(
                                             width: 10,
                                           ),
-                                          Text(
+                                          const Text(
                                             'Messages',
                                             style: TextStyle(
                                                 color: kLightPink,
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
 
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           ),
-                                          Image(
-                                            image: AssetImage('assets/images/wicon.png'),
-                                            width: 50,
-                                            height: 50,
-                                            color: kLightPink,
-                                          )
+                                          InkWell(
+                                            onTap: () {
+                                              kNavigator(context, ProFileScreen());
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(horizontal: 14),
+                                              width: 50,
+                                              height: 50,
+                                              child: Image.asset('assets/images/wicon3.png'),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       const Divider(color: Colors.grey, thickness: 2),
@@ -102,7 +108,7 @@ class ChatList extends StatelessWidget implements ApiStatusLogin {
                           return SafeArea(child:Container(
 
                             child: Scaffold(
-                              bottomNavigationBar: mYBottomNavigationBar(context),
+                              //bottomNavigationBar: mYBottomNavigationBar(context),
                               body: Container(
                                 child: Column(
                                   children: [

@@ -105,7 +105,7 @@ class SellingItem extends StatelessWidget implements ApiStatusLogin {
                       )
                     ],
                   ),
-                  bottomNavigationBar: mYBottomNavigationBar(context),
+                 // bottomNavigationBar: mYBottomNavigationBar(context),
                   body:    FutureBuilder<
                       DocumentSnapshot>(
                     future: users

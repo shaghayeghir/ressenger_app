@@ -21,8 +21,10 @@ class Notices extends StatelessWidget implements ApiStatusLogin {
   Notices({Key? key}) : super(key: key);
   late BuildContext context;
 
+
   @override
   Widget build(BuildContext context) {
+    context.read<ApiService>().checktoken();
     this.context = context;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -68,7 +70,7 @@ class Notices extends StatelessWidget implements ApiStatusLogin {
             )
           ],
         ),
-        bottomNavigationBar: mYBottomNavigationBar(context),
+        //bottomNavigationBar: mYBottomNavigationBar(context),
         body:    FutureBuilder<
             DocumentSnapshot>(
           future: users

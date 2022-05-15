@@ -90,7 +90,7 @@ class PropertyItems extends StatelessWidget implements ApiStatusLogin {
                     )
                   ],
                 ),
-                bottomNavigationBar: mYBottomNavigationBar(context),
+                //bottomNavigationBar: mYBottomNavigationBar(context),
                 body: FutureBuilder<DocumentSnapshot>(
                   future: users.doc(myId).get(),
                   builder: (BuildContext context,

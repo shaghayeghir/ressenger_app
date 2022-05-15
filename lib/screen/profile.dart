@@ -7,6 +7,7 @@ import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/country.dart';
 import 'package:ressengaer_app/screen/posts.dart';
 import 'package:ressengaer_app/screen/send_notice_dialog.dart';
+import 'package:ressengaer_app/screen/setting_screen.dart';
 
 import '../widgets/my_bottom_navigation_bar.dart';
 
@@ -208,7 +209,9 @@ class ProFileScreen extends StatelessWidget implements ApiStatusLogin {
                                     profileOptions(FontAwesomeIcons.briefcase, 'My Posts', () {
                                       kNavigator(context, Posts());
                                     }),
-                                    profileOptions(Icons.settings, 'Settings', () {}),
+                                    profileOptions(Icons.settings, 'Settings', () {
+                                      kNavigator(context, SettingPage());
+                                    }),
                                     profileOptions(Icons.announcement_outlined, 'Legal', () {}),
                                     Container(
                                         child: (data['admin']=='true')

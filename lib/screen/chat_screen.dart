@@ -28,7 +28,7 @@ class ChatScreen extends StatelessWidget implements ApiStatusLogin {
                   return SafeArea(child:Container(
 
                     child: Scaffold(
-                      bottomNavigationBar: mYBottomNavigationBar(context),
+                     // bottomNavigationBar: mYBottomNavigationBar(context),
                       body: Container(
                         child: Column(
                           children: [

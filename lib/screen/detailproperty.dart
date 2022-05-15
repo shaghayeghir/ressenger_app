@@ -134,7 +134,7 @@ class DetailProperty extends StatelessWidget implements ApiStatusLogin {
                                         ),
                                       ],
                                     ),
-                                    mYBottomNavigationBar(context),
+                                   // mYBottomNavigationBar(context),
                                   ],
                                 );
                               }

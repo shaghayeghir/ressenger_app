@@ -12,7 +12,7 @@ class ServicesDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          bottomNavigationBar: mYBottomNavigationBar(context),
+        //  bottomNavigationBar: mYBottomNavigationBar(context),
           body: Container(
             child: Column(
               children: [

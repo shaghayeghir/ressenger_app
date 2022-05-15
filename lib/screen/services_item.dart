@@ -110,7 +110,7 @@ class ServicesItem extends StatelessWidget implements ApiStatusLogin {
                       )
                     ],
                   ),
-                  bottomNavigationBar: mYBottomNavigationBar(context),
+                 // bottomNavigationBar: mYBottomNavigationBar(context),
                   body: Column(
                     children: [
                       Container(

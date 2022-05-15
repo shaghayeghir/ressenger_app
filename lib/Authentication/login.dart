@@ -129,7 +129,7 @@ class Login extends StatelessWidget implements ApiStatusLogin {
   void login(){
     //Box b = Hive.box('vet');
     //b.put('vet', false);
-    kNavigatorBack(context);
+    //kNavigatorBack(context);
     kNavigator(context,  Notices());
   }
 

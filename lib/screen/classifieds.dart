@@ -12,7 +12,6 @@ import 'package:ressengaer_app/Model/notice_model.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/post_classified.dart';
 import 'package:ressengaer_app/screen/profile.dart';
-import 'package:ressengaer_app/screen/test.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
 
@@ -78,7 +77,7 @@ class ClassiFieds extends StatelessWidget implements ApiStatusLogin {
                               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (snapshot.hasData) {
                               return Scaffold(
-                                bottomNavigationBar: mYBottomNavigationBar(context),
+                                //bottomNavigationBar: mYBottomNavigationBar(context),
                                 body: Container(
                                   child: Column(
                                     children: [
@@ -121,12 +120,17 @@ class ClassiFieds extends StatelessWidget implements ApiStatusLogin {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            const Image(
-                                              image: AssetImage('assets/images/wicon.png'),
-                                              width: 50,
-                                              height: 50,
-                                              color: kLightPink,
-                                            )
+                                            InkWell(
+                                              onTap: () {
+                                                kNavigator(context, ProFileScreen());
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.symmetric(horizontal: 14),
+                                                width: 50,
+                                                height: 50,
+                                                child: Image.asset('assets/images/wicon3.png'),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

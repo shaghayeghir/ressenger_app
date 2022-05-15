@@ -78,7 +78,7 @@ class Services extends StatelessWidget implements ApiStatusLogin {
                               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (snapshot.hasData) {
                               return Scaffold(
-                                bottomNavigationBar: mYBottomNavigationBar(context),
+                                //bottomNavigationBar: mYBottomNavigationBar(context),
                                 body: Container(
                                   child: Column(
                                     children: [
