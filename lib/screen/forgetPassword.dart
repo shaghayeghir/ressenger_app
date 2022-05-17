@@ -102,11 +102,11 @@ class ForgetPassword extends StatelessWidget implements ApiStatusLogin {
                             borderSide:
                                 BorderSide(color: Colors.white, width: 3),
                           ),
-                          labelText: '',
+                          labelText: 'Enter your Email',
                           labelStyle:
-                              TextStyle(color: Colors.grey, fontSize: 12),
+                              TextStyle(color: kMyPink, fontSize: 12),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                          hintText: 'Enter your Email',
+                          hintText: '',
                           hintStyle: TextStyle(
                               color: kMyPink,
                               fontWeight: FontWeight.bold,
