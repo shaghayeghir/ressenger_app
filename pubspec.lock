@@ -420,7 +420,7 @@ packages:
     source: hosted
     version: "0.9.2"
   flutter_lints:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: flutter_lints
       url: "https://pub.dartlang.org"

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ressengaer_app/constants.dart';
 import 'package:ressengaer_app/screen/country.dart';
+import 'package:ressengaer_app/screen/legal.dart';
 import 'package:ressengaer_app/screen/posts.dart';
 import 'package:ressengaer_app/screen/send_notice_dialog.dart';
 import 'package:ressengaer_app/screen/setting_screen.dart';
@@ -212,7 +213,9 @@ class ProFileScreen extends StatelessWidget implements ApiStatusLogin {
                                     profileOptions(Icons.settings, 'Settings', () {
                                       kNavigator(context, SettingPage());
                                     }),
-                                    profileOptions(Icons.announcement_outlined, 'Legal', () {}),
+                                    profileOptions(Icons.announcement_outlined, 'Legal', () {
+                                      kNavigator(context, Legal());
+                                    }),
                                     Container(
                                         child: (data['admin']=='true')
                                             ?Column(

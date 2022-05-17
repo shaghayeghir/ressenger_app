@@ -9,7 +9,6 @@ import 'package:ressengaer_app/Authentication/login.dart';
 import 'package:ressengaer_app/Authentication/sign_up.dart';
 import 'package:ressengaer_app/Model/notice_model.dart';
 import 'package:ressengaer_app/constants.dart';
-import 'package:ressengaer_app/screen/forgetPassword.dart';
 import 'package:ressengaer_app/screen/profile.dart';
 import 'package:ressengaer_app/widgets/button.dart';
 import 'package:ressengaer_app/widgets/text_fileds.dart';
@@ -17,10 +16,9 @@ import 'package:ressengaer_app/widgets/text_fileds.dart';
 import '../Utils/custom_snackbar.dart';
 import '../provider/ApiService.dart';
 import '../widgets/my_bottom_navigation_bar.dart';
-import 'country.dart';
 
-class SettingPage extends StatelessWidget implements ApiStatusLogin {
-  SettingPage({Key? key}) : super(key: key);
+class ForgetPassword extends StatelessWidget implements ApiStatusLogin {
+  ForgetPassword({Key? key}) : super(key: key);
   late BuildContext context;
 
   @override
@@ -41,12 +39,12 @@ class SettingPage extends StatelessWidget implements ApiStatusLogin {
                   Row(
                     children: [
                       const Icon(
-                        Icons.settings,
+                        Icons.lock_reset_outlined,
                         color: kMyPink,
                         size: 40,
                       ),
                       const Text(
-                        'Setting',
+                        'Reset',
                         style: TextStyle(
                             color: kMyPink,
                             fontSize: 20,
@@ -72,80 +70,76 @@ class SettingPage extends StatelessWidget implements ApiStatusLogin {
                 ],
               ),
               //bottomNavigationBar: mYBottomNavigationBar(context),
-              body: FutureBuilder<DocumentSnapshot>(
-                future: users.doc(myId).get(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text("Something went wrong");
-                  }
+              body: Center(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 20),
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please type something';
+                          } else {
+                            return null;
+                          }
+                        },
+                        // inputFormatters: [
+                        //   LengthLimitingTextInputFormatter(50),
+                        // ],
 
-                  if (snapshot.hasData && !snapshot.data!.exists) {
-                    return const Text("Document does not exist");
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    Map<String, dynamic> data =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    return Column(
-                      children: [
-
-                        Center(
-                          child: RawMaterialButton(
-                            onPressed: () {
-                              kNavigator(context, ForgetPassword());
-                            },
-                            child: Card(
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width * 0.95,
-                                height: MediaQuery.of(context).size.height * 0.05,
-                                child: const Text(
-                                  'Reset password',
-                                  style: TextStyle(
-                                      color: kMyPink,
-                                      fontFamily: 'Mont'
-                                  ),
-                                ),
-                              ),
-                            ),
+                        controller: value.emailNameController,
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: kMyPink, width: 3),
                           ),
-                        ),
-                        Center(
-                          child: RawMaterialButton(
-                            onPressed: () {
-                              kNavigator(context, SelectCountry(previusScreen: 'confirm'));
-
-                              // kNavigator(context, SearchApartment(previusScreen: '',));
-                            },
-                            child: Card(
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width * 0.95,
-                                height: MediaQuery.of(context).size.height * 0.05,
-                                child: const Text(
-                                  'Change apartment',
-                                  style: TextStyle(
-                                      color: kMyPink,
-                                      fontFamily: 'Mont'
-                                  ),
-                                ),
-                              ),
-                            ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: kMyPink, width: 3),
                           ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 3),
+                          ),
+                          labelText: '',
+                          labelStyle:
+                              TextStyle(color: Colors.grey, fontSize: 12),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          hintText: 'Enter your Email',
+                          hintStyle: TextStyle(
+                              color: kMyPink,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
                         ),
-                      ],
-                    );
-                  }
-
-                  return const Center(
-                    child: Text(
-                      "loading...",
-                      style: TextStyle(
-                          color: kMyPink, fontSize: 20, fontFamily: 'Mont'),
+                      ),
                     ),
-                  );
-                },
+                    RawMaterialButton(
+                      onPressed: ()  {
+                        //kNavigator(context, Navigator());
+                        value.auth.sendPasswordResetEmail(email: value.emailNameController.text).whenComplete((){
+                          ModeSnackBar.show(context, 'Check your email', SnackBarMode.success);
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: kMyPink,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        margin: const EdgeInsets.only(top: 20),
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: const Center(
+                            child: Text(
+                          'Reset',
+                          style: TextStyle(color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                        )),
+
+                      ),
+                    )
+                  ],
+                ),
               )));
     }));
   }
